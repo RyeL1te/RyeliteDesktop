@@ -1,0 +1,6 @@
+[submodule "src/renderer/client/highlite/plugins"]
+	path = src/renderer/client/highlite/plugins
+	url = https://github.com/Highl1te/Plugin-Hub
+[submodule "src/renderer/client/highlite/core"]
+	path = src/renderer/client/highlite/core
+	url = https://github.com/Highl1te/Core
