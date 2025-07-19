@@ -8,6 +8,7 @@ export class TreasureMapHelper extends Plugin {
 
     constructor() {
         super();
+        this.settings.enable.value = false; // Default to false
     }
 
     start(): void {}
