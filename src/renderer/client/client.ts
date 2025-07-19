@@ -1,34 +1,6 @@
 import { IndexDBWrapper } from './helpers/IndexDBWrapper';
 import { Highlite } from './highlite/core/core';
-import { HPAlert } from './highlite/plugins/HPAlert';
-import { IdleAlert } from './highlite/plugins/IdleAlert/IdleAlert';
-import { Lookup } from './highlite/plugins/Lookup';
-import { Nameplates } from './highlite/plugins/Nameplates';
-import { EnhancedHPBars } from './highlite/plugins/EnhancedHPBars';
-import { EnhancedLoginScreen } from './highlite/plugins/EnhancedLoginScreen';
-import { ContextMenuOptions } from './highlite/plugins/ContextMenuOptions';
-import { TradeAlerts } from './highlite/plugins/TradeAlerts';
-import { PMAlerts } from './highlite/plugins/PMAlerts';
-import { CoinCounter } from './highlite/plugins/CoinCounter';
-import { ExperienceTracker } from './highlite/plugins/ExperienceTracker';
-import { WorldMap } from './highlite/plugins/Map';
-import { MinimapMarker } from './highlite/plugins/MinimapMarker';
-import { DropLog } from './highlite/plugins/DropLog';
-import { ChatItemTooltip } from './highlite/plugins/ChatItemTooltip';
-import { XPOrb } from './highlite/plugins/XPOrb';
-import { TreasureMapHelper } from './highlite/plugins/TreasureMapHelper';
-import { BankSearch } from './highlite/plugins/BankSearch';
-import { FPSLimiter } from './highlite/plugins/FPSLimiter';
-import { DefinitionsPanel } from './highlite/plugins/DefinitionsPanel';
-import { CurrentStatus } from './highlite/plugins/CurrentStatus';
-import { MinimapIcons } from './highlite/plugins/MinimapIcons';
-import { AutoSprint } from './highlite/plugins/AutoSprint';
-import { EntityHighlight } from './highlite/plugins/EntityHighlight';
-import { InventoryTooltips } from './highlite/plugins/InventoryTooltips';
-import { PacketQueue } from './highlite/plugins/PacketQueue';
-import { ChatEnhancer } from './highlite/plugins/ChatEnhancer';
-import { QuickActionMouseTooltip } from './highlite/plugins/QuickActionMouseTooltip';
-import { ExtraInfoBar } from './highlite/plugins/ExtraInfoBar';
+import { PLUGIN_REGISTRY } from './highlite/generated/pluginRegistry';
 
 import '@iconify/iconify';
 import '@static/css/index.css';
@@ -38,45 +10,7 @@ import '@static/css/item-tooltip.css';
 import './helpers/titlebarHelpers.js';
 import { setupWorldSelectorObserver } from './helpers/worldSelectHelper';
 
-
-// Plugin registry - single source of truth for all plugins
-const PLUGIN_REGISTRY = [
-    { class: HPAlert, path: './highlite/plugins/HPAlert' },
-    { class: IdleAlert, path: './highlite/plugins/IdleAlert/IdleAlert' },
-    { class: Lookup, path: './highlite/plugins/Lookup' },
-    { class: Nameplates, path: './highlite/plugins/Nameplates' },
-    { class: EnhancedHPBars, path: './highlite/plugins/EnhancedHPBars' },
-    {
-        class: EnhancedLoginScreen,
-        path: './highlite/plugins/EnhancedLoginScreen',
-    },
-    {
-        class: ContextMenuOptions,
-        path: './highlite/plugins/ContextMenuOptions',
-    },
-    { class: TradeAlerts, path: './highlite/plugins/TradeAlerts' },
-    { class: PMAlerts, path: './highlite/plugins/PMAlerts' },
-    { class: CoinCounter, path: './highlite/plugins/CoinCounter' },
-    { class: ExperienceTracker, path: './highlite/plugins/ExperienceTracker' },
-    { class: WorldMap, path: './highlite/plugins/Map' },
-    { class: MinimapMarker, path: './highlite/plugins/MinimapMarker' },
-    { class: DropLog, path: './highlite/plugins/DropLog' },
-    { class: ChatItemTooltip, path: './highlite/plugins/ChatItemTooltip' },
-    { class: XPOrb, path: './highlite/plugins/XPOrb' },
-    { class: TreasureMapHelper, path: './highlite/plugins/TreasureMapHelper' },
-    { class: FPSLimiter, path: './highlite/plugins/FPSLimiter' },
-    { class: DefinitionsPanel, path: './highlite/plugins/DefinitionsPanel' },
-    { class: MinimapIcons, path: './highlite/plugins/MinimapIcons' },
-    { class: PacketQueue, path: './highlite/plugins/PacketQueue' },
-    { class: CurrentStatus, path: './highlite/plugins/CurrentStatus' },
-    { class: EntityHighlight, path: './highlite/plugins/EntityHighlight' },
-    { class: BankSearch, path: './highlite/plugins/BankSearch' },
-    { class: AutoSprint, path: './highlite/plugins/AutoSprint' },
-    { class: InventoryTooltips, path: './highlite/plugins/InventoryTooltips' },
-    { class: ChatEnhancer, path: './highlite/plugins/ChatEnhancer' },
-    { class: QuickActionMouseTooltip, path: './highlite/plugins/QuickActionMouseTooltip' },
-    { class: ExtraInfoBar, path: './highlite/plugins/ExtraInfoBar' },
-];
+// Plugin loading will be done dynamically at runtime
 
 async function obtainGameClient() {
     const highspellAssetsURL = 'https://highspell.com:3002/assetsClient';
@@ -277,22 +211,32 @@ async function generatePage() {
         document.highlite.core = highlite;
     }
 
-    const plugins = PLUGIN_REGISTRY.map(p => ({ class: p.class }));
-
-    // Only register plugins and start if this is initial load
-    if (!getPageGenerated()) {
-        // Register all plugins
-        plugins.forEach(plugin => {
-            highlite.pluginManager.registerPlugin(plugin.class as any);
-        });
-
-        // Start the highlite instance
-        highlite.start();
+    // Load and register plugins from registry
+    console.log('[Highlite] Loading plugins from registry...');
+    const loadedPlugins: Array<{ class: any; name: string }> = [];
+    
+    for (const pluginEntry of PLUGIN_REGISTRY) {
+        try {
+            console.log(`[Highlite] Loading plugin: ${pluginEntry.name}`);
+            const pluginModule = await import(`./highlite/plugins/${pluginEntry.name}.js`);
+            const PluginClass = pluginModule.default;
+            
+            if (PluginClass) {
+                highlite.pluginManager.registerPlugin(PluginClass);
+                loadedPlugins.push({ class: PluginClass, name: pluginEntry.name });
+                console.log(`[Highlite] Successfully loaded plugin: ${pluginEntry.name}`);
+            } else {
+                console.error(`[Highlite] Plugin class not found in module: ${pluginEntry.name}`);
+            }
+        } catch (error) {
+            console.error(`[Highlite] Failed to load plugin ${pluginEntry.name}:`, error);
+        }
     }
 
-    // Store plugins globally for HMR access
+    // Start highlite instance and store globals on initial load
     if (!getPageGenerated()) {
-        (window as any).__highlite_plugins = plugins;
+        highlite.start();
+        (window as any).__highlite_plugins = loadedPlugins;
         (window as any).__highlite_core = highlite;
     }
 
@@ -323,7 +267,9 @@ if (import.meta.hot && import.meta.env.DEV) {
     const getPlugins = () => (window as any).__highlite_plugins || [];
     const getHighlite = () => (window as any).__highlite_core;
 
-    const pluginPaths = PLUGIN_REGISTRY.map(p => p.path);
+    // Note: HMR for dynamic plugins will need to be implemented differently
+    // For now, we'll disable the old plugin path-based HMR since plugins are loaded from registry
+    const pluginPaths: string[] = []; // TODO: Implement dynamic plugin HMR for registry-based plugins
     import.meta.hot.accept(pluginPaths, () => {
         console.log(
             '[HMR] Plugin modules updated, handled by custom hot reload system'

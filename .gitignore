@@ -141,3 +141,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Generated files
+src/renderer/client/highlite/generated/
+src/renderer/client/highlite/plugins/
