@@ -1,4 +1,4 @@
-import { app, BrowserWindow, contextBridge, shell } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import path from 'path';
 import { format } from 'url';
 
@@ -91,10 +91,6 @@ export async function createClientWindow() {
     mainWindow.on('ready-to-show', () => {
         // Always start with zoom reset to 0.0
         mainWindow.webContents.setZoomLevel(0);
-    });
-
-    contextBridge.exposeInMainWorld('electron', {
-        platform: process.platform
     });
 
     return mainWindow;
