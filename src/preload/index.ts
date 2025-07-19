@@ -10,10 +10,7 @@ const api = {};
 if (process.contextIsolated) {
     try {
         contextBridge.exposeInMainWorld('electron', electronAPI);
-        contextBridge.exposeInMainWorld('api', api);    
-        contextBridge.exposeInMainWorld('electron', {
-            platform: process.platform
-        });
+        contextBridge.exposeInMainWorld('api', api);
     } catch (error) {
         console.error(error);
     }
