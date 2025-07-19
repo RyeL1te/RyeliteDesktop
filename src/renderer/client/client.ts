@@ -27,6 +27,7 @@ import { EntityHighlight } from './highlite/plugins/EntityHighlight';
 import { InventoryTooltips } from './highlite/plugins/InventoryTooltips';
 import { PacketQueue } from './highlite/plugins/PacketQueue';
 import { ChatEnhancer } from './highlite/plugins/ChatEnhancer';
+import { QuickActionMouseTooltip } from './highlite/plugins/QuickActionMouseTooltip';
 import { ExtraInfoBar } from './highlite/plugins/ExtraInfoBar';
 
 import '@iconify/iconify';
@@ -73,6 +74,7 @@ const PLUGIN_REGISTRY = [
     { class: AutoSprint, path: './highlite/plugins/AutoSprint' },
     { class: InventoryTooltips, path: './highlite/plugins/InventoryTooltips' },
     { class: ChatEnhancer, path: './highlite/plugins/ChatEnhancer' },
+    { class: QuickActionMouseTooltip, path: './highlite/plugins/QuickActionMouseTooltip' },
     { class: ExtraInfoBar, path: './highlite/plugins/ExtraInfoBar' },
 ];
 
