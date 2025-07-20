@@ -7,7 +7,7 @@ const crypto = require('crypto');
 
 // Configuration constants
 const PLUGIN_HUB_API = 'https://api.github.com/repos/Highl1te/Plugin-Hub/contents/plugins';
-const PLUGINS_DIR = path.join(__dirname, '..', 'src', 'renderer', 'client', 'highlite', 'plugins');
+const PLUGINS_DIR = path.join(__dirname, '..', 'src', 'renderer', 'client', 'plugins');
 
 // Utility functions
 async function ensureDirectoryExists(dirPath) {
