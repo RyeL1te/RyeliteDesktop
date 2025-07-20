@@ -27,7 +27,6 @@
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux",
-    "download-plugins": "node scripts/download-plugins.js",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,html}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,html}\"",
     "format:fix": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,html}\" --ignore-unknown"

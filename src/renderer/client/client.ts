@@ -1,6 +1,5 @@
 import { IndexDBWrapper } from './helpers/IndexDBWrapper';
 import { Highlite } from './highlite/core/core';
-import { PLUGIN_REGISTRY } from './highlite/generated/pluginRegistry';
 
 import '@iconify/iconify';
 import '@static/css/index.css';
@@ -9,8 +8,6 @@ import '@static/css/item-tooltip.css';
 
 import './helpers/titlebarHelpers.js';
 import { setupWorldSelectorObserver } from './helpers/worldSelectHelper';
-
-// Plugin loading will be done dynamically at runtime
 
 async function obtainGameClient() {
     const highspellAssetsURL = 'https://highspell.com:3002/assetsClient';
@@ -211,26 +208,38 @@ async function generatePage() {
         document.highlite.core = highlite;
     }
 
-    // Load and register plugins from registry
-    console.log('[Highlite] Loading plugins from registry...');
-    const loadedPlugins: Array<{ class: any; name: string }> = [];
+    // Load and register all plugins using dynamic imports
+    console.log('[Highlite] Loading plugins...');
+    const loadedPlugins: Array<{ class: any; name: string; }> = [];
     
-    for (const pluginEntry of PLUGIN_REGISTRY) {
-        try {
-            console.log(`[Highlite] Loading plugin: ${pluginEntry.name}`);
-            const pluginModule = await import(`./highlite/plugins/${pluginEntry.name}.js`);
-            const PluginClass = pluginModule.default;
-            
-            if (PluginClass) {
-                highlite.pluginManager.registerPlugin(PluginClass);
-                loadedPlugins.push({ class: PluginClass, name: pluginEntry.name });
-                console.log(`[Highlite] Successfully loaded plugin: ${pluginEntry.name}`);
-            } else {
-                console.error(`[Highlite] Plugin class not found in module: ${pluginEntry.name}`);
+    try {
+        const pluginModules = import.meta.glob('./highlite/plugins/*.js', { eager: false });
+        
+        for (const [path, moduleLoader] of Object.entries(pluginModules)) {
+            try {
+                const pluginName = path.split('/').pop()?.replace('.js', '') || 'UnknownPlugin';
+                console.log(`[Highlite] Loading plugin: ${pluginName}`);
+                
+                const pluginModule = await moduleLoader();
+                const PluginClass = (pluginModule as any).default;
+                
+                if (PluginClass) {
+                    highlite.pluginManager.registerPlugin(PluginClass);
+                    loadedPlugins.push({ 
+                        class: PluginClass, 
+                        name: pluginName, 
+                    });
+
+                    console.log(`[Highlite] Successfully loaded plugin: ${pluginName}`);
+                } else {
+                    console.error(`[Highlite] Plugin class not found in module: ${pluginName}`);
+                }
+            } catch (error) {
+                console.error(`[Highlite] Failed to load plugin from ${path}:`, error);
             }
-        } catch (error) {
-            console.error(`[Highlite] Failed to load plugin ${pluginEntry.name}:`, error);
         }
+    } catch (error) {
+        console.error('[Highlite] Error loading plugins:', error);
     }
 
     // Start highlite instance and store globals on initial load
