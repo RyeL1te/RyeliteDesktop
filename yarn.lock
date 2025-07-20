@@ -722,14 +722,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@highlite/plugin-api@npm:^1.0.8":
-  version: 1.0.8
-  resolution: "@highlite/plugin-api@npm:1.0.8"
+"@highlite/plugin-api@npm:^1.0.11":
+  version: 1.0.11
+  resolution: "@highlite/plugin-api@npm:1.0.11"
   dependencies:
     acorn: "npm:^8.15.0"
     acorn-walk: "npm:^8.3.4"
     idb: "npm:^8.0.3"
-  checksum: 10c0/8a3e5b49c800127aa608b13a18200380b190276ef13270a561e54e8b5b71cf38967d9b3e5c1384c85a6bb2637080f6b19b7aaa19f8d102ded67273af79fc8dbb
+  checksum: 10c0/dabb5e2856d2f861ccdbc63858268e3d3e7e8ca8f1aada18430ddc301ee8c58aac4a9516c5cdb82963759b0781187b4d3d8700e0b802f45dd572885e7d233686
   languageName: node
   linkType: hard
 
@@ -2841,7 +2841,7 @@ __metadata:
     "@electron-toolkit/preload": "npm:^3.0.2"
     "@electron-toolkit/tsconfig": "npm:^1.0.1"
     "@electron-toolkit/utils": "npm:^4.0.0"
-    "@highlite/plugin-api": "npm:^1.0.8"
+    "@highlite/plugin-api": "npm:^1.0.11"
     "@iconify/iconify": "npm:^3.1.1"
     "@types/node": "npm:^22.0.0"
     electron: "npm:^37.2.1"

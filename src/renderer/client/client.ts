@@ -1,6 +1,9 @@
 import { IndexDBWrapper } from './helpers/IndexDBWrapper';
 import { Highlite } from '@highlite/plugin-api/dist/core';
-import '@highlite/plugin-api/dist/globals';
+import { Reflector } from '@highlite/plugin-api/dist/reflector/reflector'
+import { HighliteResources } from '@highlite/plugin-api/dist/utilities/resources';
+
+
 
 
 import '@iconify/iconify';
@@ -13,30 +16,50 @@ import { setupWorldSelectorObserver } from './helpers/worldSelectHelper';
 
 async function obtainGameClient() {
     const highspellAssetsURL = 'https://highspell.com:3002/assetsClient';
-    const highliteDB = new IndexDBWrapper();
-    await highliteDB.init();
+
+    const highliteResources = new HighliteResources();
+    await highliteResources.init();
 
     // Check if clientLastVersion is set
-    const clientLastVersion = await highliteDB.getItem('clientLastVersion');
+    const clientLastVersion = await highliteResources.getItem('clientLastVersion');
 
     // Get Asset JSON to determine latest version
-    const highSpellAssetJSON = await (await fetch(highspellAssetsURL)).json();
+    const highSpellAssetJSON = await fetch(highspellAssetsURL).then(r => r.json());
     const remoteLastVersion = highSpellAssetJSON.data.latestClientVersion;
 
-    let highSpellClient = '';
+    // Load the stored hooks
+    const savedHooks = await Reflector.hasSavedHooks();
+
+    // Fetch the latest client
+    async function fetchLatestClient() {
+
+        // Define the highspell url
+        const highSpellClientURL = `https://highspell.com/js/client/client.${highSpellAssetJSON.data.latestClientVersion}.js`;
+
+        // Log the url
+        console.log(highSpellClientURL);
+
+        // Return the new client code
+        return await fetch(highSpellClientURL + '?time=' + Date.now()).then(r => r.text());
+    }
+
+    let highSpellClient : string | null = null;
     if (
         clientLastVersion == undefined ||
-        clientLastVersion < remoteLastVersion
+        clientLastVersion < remoteLastVersion ||
+        !savedHooks
     ) {
         console.log(
             '[Highlite Loader] High Spell Client Version is outdated, updating...'
         );
-        const highSpellClientURL = `https://highspell.com/js/client/client.${highSpellAssetJSON.data.latestClientVersion}.js`;
-        console.log(highSpellClientURL);
-        highSpellClient = await (
-            await fetch(highSpellClientURL + '?time=' + Date.now())
-        ).text();
-        console.log(highSpellClient);
+        
+        // Fetch the latest client
+        highSpellClient = await fetchLatestClient();
+
+        // Reflect the game hooks
+        await Reflector.loadHooksFromSource(highSpellClient);
+
+        // Inject the hook handlers
         highSpellClient =
             highSpellClient.substring(0, highSpellClient.length - 9) +
             '; document.client = {};' +
@@ -47,8 +70,10 @@ async function obtainGameClient() {
             "eval(a + ' = ' + b);" +
             '};' +
             highSpellClient.substring(highSpellClient.length - 9);
-        await highliteDB.setItem('highSpellClient', highSpellClient);
-        await highliteDB.setItem('clientLastVersion', remoteLastVersion);
+
+        // Save latest version
+        await highliteResources.setItem('highSpellClient', highSpellClient);
+        await highliteResources.setItem('clientLastVersion', remoteLastVersion);
         console.log(
             '[Highlite Loader] High Spell Client Version ' +
                 highSpellAssetJSON.data.latestClientVersion +
@@ -58,7 +83,19 @@ async function obtainGameClient() {
         console.log(
             '[Highlite Loader] High Spell Client Version is up to date.'
         );
-        highSpellClient = await highliteDB.getItem('highSpellClient');
+
+        // Load the client from save db
+        highSpellClient = await highliteResources.getItem('highSpellClient');
+
+        // Load the hooks from db
+        await Reflector.loadHooksFromDB();
+
+        // In the background we still bind the latest hook code for dev testing purposes (e.g finding new hooks in a script)
+        setTimeout(async() => {
+
+            // Reflect the game hooks
+            await Reflector.loadHooksFromSource(highSpellClient || '');
+        }, 200);
     }
 
     return Promise.resolve(highSpellClient);
@@ -198,15 +235,14 @@ console.log('[Highlite] Loading plugins...');
 const loadedPlugins: Array<{ class: any; name: string; }> = [];
 
 try {
-    const pluginModules = import.meta.glob('./plugins/*.js', { eager: false });
+    const pluginModules = import.meta.glob('./plugins/*.js', { eager: true });
     
     for (const [path, moduleLoader] of Object.entries(pluginModules)) {
         try {
             const pluginName = path.split('/').pop()?.replace('.js', '') || 'UnknownPlugin';
             console.log(`[Highlite] Loading plugin: ${pluginName}`);
-            
-            const pluginModule = await moduleLoader();
-            const PluginClass = (pluginModule as any).default;
+            // Dynamically import the plugin module
+            const PluginClass = (moduleLoader as any).default;
             
             if (PluginClass) {
                 highlite.pluginManager.registerPlugin(PluginClass);
@@ -226,11 +262,10 @@ try {
 } catch (error) {
     console.error('[Highlite] Error loading plugins:', error);
 }
+console.warn(`[Highlite] Loaded ${loadedPlugins.length} plugins:`, loadedPlugins.map(p => p.name).join(', '));
 
-highlite.start();
+await highlite.start();
 window.electron.ipcRenderer.send('ui-ready');
-
-// Fire a new DOMContentLoaded event
 document.dispatchEvent(
     new Event('DOMContentLoaded', {
         bubbles: true,
