@@ -2,6 +2,10 @@
 .idea
 .vscode
 .yarn
+
+# Don't keep plugins in the repository
+src/renderer/client/plugins/
+
 # We use Yarn at production, so we don't want to keep package-lock.json from developers
 .package-lock.json
 
@@ -141,7 +145,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# Generated files
-src/renderer/client/highlite/generated/
-src/renderer/client/highlite/plugins/
