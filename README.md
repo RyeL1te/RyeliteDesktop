@@ -85,12 +85,6 @@ The Plugin Hub serves as the central registry:
    ```bash
    yarn install
    ```
-
-3. **Download required plugins** (automatically runs before dev/build)
-   ```bash
-   yarn predev
-   ```
-
 ## Development Commands
 ### Development Mode
 ```bash
@@ -100,7 +94,7 @@ yarn start        # Preview built application without packaging
 
 ### Building
 ```bash
-yarn build        # Build the application for production
+yarn build        # Build the application for production (automatically runs prebuild)
 yarn build:unpack # Build and create unpacked directory
 ```
 

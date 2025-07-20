@@ -1,5 +1,5 @@
 import { IndexDBWrapper } from './helpers/IndexDBWrapper';
-import { Highlite } from './highlite/core/core';
+import { Highlite } from './highlite/core/src/core';
 
 import '@iconify/iconify';
 import '@static/css/index.css';
