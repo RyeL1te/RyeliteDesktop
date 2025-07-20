@@ -121,4 +121,4 @@ yarn format:fix   # Fix formatting issues
 - **`build/`** - Application icons and build assets
 
 ## Plugin Development
-The core framework at `src/renderer/client/highlite/core/` is included as a Git submodule and provides the plugin API. Refer to the [Core repository](https://github.com/Highl1te/Core) for detailed plugin development documentation.
+The core framework at `src/renderer/client/highlite/core/` is included as a Git submodule and provides the plugin API. Refer to the [Core repository](https://github.com/Highl1te/Core) for details on the plugin API. An example/template repository is available here: https://github.com/Highl1te/Example-Plugin
