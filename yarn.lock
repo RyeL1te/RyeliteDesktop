@@ -722,16 +722,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@highlite/plugin-api@npm:^1.0.11":
-  version: 1.0.11
-  resolution: "@highlite/plugin-api@npm:1.0.11"
+"@highlite/plugin-api@portal:/run/media/kkonaog/Data/Projects/HighSpell/HighLite/Core::locator=highlite%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@highlite/plugin-api@portal:/run/media/kkonaog/Data/Projects/HighSpell/HighLite/Core::locator=highlite%40workspace%3A."
   dependencies:
     acorn: "npm:^8.15.0"
     acorn-walk: "npm:^8.3.4"
     idb: "npm:^8.0.3"
-  checksum: 10c0/dabb5e2856d2f861ccdbc63858268e3d3e7e8ca8f1aada18430ddc301ee8c58aac4a9516c5cdb82963759b0781187b4d3d8700e0b802f45dd572885e7d233686
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@iconify/iconify@npm:^3.1.1":
   version: 3.1.1
@@ -2841,7 +2840,7 @@ __metadata:
     "@electron-toolkit/preload": "npm:^3.0.2"
     "@electron-toolkit/tsconfig": "npm:^1.0.1"
     "@electron-toolkit/utils": "npm:^4.0.0"
-    "@highlite/plugin-api": "npm:^1.0.11"
+    "@highlite/plugin-api": "npm:^1.0.13"
     "@iconify/iconify": "npm:^3.1.1"
     "@types/node": "npm:^22.0.0"
     electron: "npm:^37.2.1"

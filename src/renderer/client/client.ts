@@ -1,10 +1,6 @@
-import { IndexDBWrapper } from './helpers/IndexDBWrapper';
-import { Highlite } from '@highlite/plugin-api/dist/core';
-import { Reflector } from '@highlite/plugin-api/dist/reflector/reflector'
-import { HighliteResources } from '@highlite/plugin-api/dist/utilities/resources';
-
-
-
+import { Highlite } from '@highlite/plugin-api'
+import { Reflector } from '@highlite/plugin-api'
+import { HighliteResources } from '@highlite/plugin-api';
 
 import '@iconify/iconify';
 import '@static/css/index.css';
@@ -52,7 +48,7 @@ async function obtainGameClient() {
         console.log(
             '[Highlite Loader] High Spell Client Version is outdated, updating...'
         );
-        
+
         // Fetch the latest client
         highSpellClient = await fetchLatestClient();
 
@@ -236,22 +232,19 @@ const loadedPlugins: Array<{ class: any; name: string; }> = [];
 
 try {
     const pluginModules = import.meta.glob('./plugins/*.js', { eager: true });
-    
+
     for (const [path, moduleLoader] of Object.entries(pluginModules)) {
         try {
             const pluginName = path.split('/').pop()?.replace('.js', '') || 'UnknownPlugin';
-            console.log(`[Highlite] Loading plugin: ${pluginName}`);
             // Dynamically import the plugin module
             const PluginClass = (moduleLoader as any).default;
-            
+
             if (PluginClass) {
                 highlite.pluginManager.registerPlugin(PluginClass);
                 loadedPlugins.push({
                     class: PluginClass,
                     name: pluginName,
                 });
-
-                console.log(`[Highlite] Successfully loaded plugin: ${pluginName}`);
             } else {
                 console.error(`[Highlite] Plugin class not found in module: ${pluginName}`);
             }
@@ -262,7 +255,6 @@ try {
 } catch (error) {
     console.error('[Highlite] Error loading plugins:', error);
 }
-console.warn(`[Highlite] Loaded ${loadedPlugins.length} plugins:`, loadedPlugins.map(p => p.name).join(', '));
 
 await highlite.start();
 window.electron.ipcRenderer.send('ui-ready');
