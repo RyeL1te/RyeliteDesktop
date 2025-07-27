@@ -95,7 +95,7 @@
     "@babylonjs/core": "^8.11.0",
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
-    "@highlite/plugin-api": "^1.0.15",
+    "@highlite/plugin-api": "^1.0.16",
     "@iconify/iconify": "^3.1.1",
     "electron-log": "^5.4.0",
     "electron-updater": "^6.3.9",
