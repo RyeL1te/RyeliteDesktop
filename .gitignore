@@ -3,7 +3,6 @@
 .vscode
 .yarn
 
-yarn.lock
 package-lock.json
 
 # Don't keep plugins in the repository
