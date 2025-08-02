@@ -113,12 +113,8 @@ yarn format:fix   # Fix formatting issues
 ```
 
 ## Project Structure
-- **`src/main/`** - Electron main process (Node.js)
-- **`src/preload/`** - Preload scripts for secure IPC
-- **`src/renderer/`** - Renderer process (web technologies)
-- **`src/renderer/client/highlite/core/`** - Core framework (Git submodule)
+- **`src/main/`** - Electron Main Process (Node Client Rendering)
+- **`src/preload/`** - Preload Scripts (Middle-man APIs between Node Client and Web Page)
+- **`src/renderer/`** - Renderer process (Web Page Rendering)
 - **`scripts/`** - Build and development scripts
 - **`build/`** - Application icons and build assets
-
-## Plugin Development
-The core framework at `src/renderer/client/highlite/core/` is included as a Git submodule and provides the plugin API. Refer to the [Core repository](https://github.com/Highl1te/Core) for details on the plugin API. An example/template repository is available here: https://github.com/Highl1te/Example-Plugin
