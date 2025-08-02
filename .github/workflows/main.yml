@@ -27,6 +27,8 @@ jobs:
         run: yarn install
 
       - name: Build the app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: yarn build
 
       - name: Build/release Electron app
