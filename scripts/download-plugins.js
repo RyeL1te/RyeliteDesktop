@@ -147,10 +147,10 @@ async function fetchPluginConfigurations() {
             console.log(`Fetching configuration for ${file.name} from API`);
 
             const response = await githubFetch(configApiUrl);
-            const fileData = await response.json();
+            const fileData = JSON.parse(((await response.text()).replace(/[^\x00-\x7F]/g, "").trim()));
 
             const configContent = Buffer.from(fileData.content, 'base64').toString('utf8');
-            const config = JSON.parse(configContent);
+            const config = JSON.parse(((configContent.replace(/[^\x00-\x7F]/g, "").trim())));
             config.name = file.name;
             return config;
         })
