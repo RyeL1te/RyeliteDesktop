@@ -40,6 +40,10 @@ ipcMain.on('close-window', event => {
     // Get the BrowserWindow instance from the event
     const window = BrowserWindow.fromWebContents(event.sender);
     if (window && !window.isDestroyed()) {
+        if (window.getTitle() === "Console") {
+            window.hide();
+            return;
+        }
         window.close();
     }
 });
@@ -47,7 +51,9 @@ ipcMain.on('close-window', event => {
 // UI Ready Handling
 ipcMain.on('ui-ready', event => {
     const window = BrowserWindow.fromWebContents(event.sender);
-    window.show();
+    if (window) {
+        window.show();
+    }
 });
 
 // Dev Tools Handling

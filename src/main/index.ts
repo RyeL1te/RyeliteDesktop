@@ -16,6 +16,7 @@
 import { app, ipcMain, BrowserWindow } from 'electron';
 import { createUpdateWindow } from './windows/updater';
 import { createClientWindow } from './windows/client';
+import { createConsoleWindow } from './windows/console';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import log from 'electron-log';
 import * as fs from 'fs';
@@ -33,6 +34,7 @@ if (!gotTheLock) {
 app.whenReady().then(async () => {
     electronApp.setAppUserModelId('com.highlite.desktop');
     const updateWindow: BrowserWindow = await createUpdateWindow();
+    const consoleWindow: BrowserWindow = await createConsoleWindow();
 
     ipcMain.once('delay-update', async () => {
         await createClientWindow();

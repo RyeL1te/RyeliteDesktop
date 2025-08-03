@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'path';
 import { format } from 'url';
 
@@ -39,7 +39,6 @@ export async function createClientWindow() {
     });
 
     mainWindow.setMenu(null);
-
     if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
         const devUrl = `${process.env['ELECTRON_RENDERER_URL']}/client.html`;
         console.log('Loading dev URL:', devUrl);
@@ -84,6 +83,15 @@ export async function createClientWindow() {
         }
     });
 
+    mainWindow.webContents.on('console-message', (event) => {
+        ipcMain.emit('add-console-message', {
+            level: event.level,
+            text: event.message,
+            lineNumber: event.lineNumber,
+            source: event.sourceId
+        });
+    });
+
     // In development, modify requests to High Spell servers
     if (!app.isPackaged) {
         // Set user agent and origin for High Spell compatibility
@@ -107,6 +115,8 @@ export async function createClientWindow() {
         // Always start with zoom reset to 0.0
         mainWindow.webContents.setZoomLevel(0);
     });
+
+    
 
     return mainWindow;
 }

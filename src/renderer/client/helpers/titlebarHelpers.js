@@ -29,7 +29,7 @@ console.error = function (...args) {
     // On click open dev tools
     if (warningIndicator) {
         warningIndicator.onclick = () => {
-            window.electron.ipcRenderer.send('show-dev-tools');
+            window.electron.ipcRenderer.send('show-console');
             // Clear the warning classes and hide the indicator
             const warningIcon = document.querySelector(
                 '#warningIndicator .warning-icon'
@@ -59,7 +59,7 @@ console.warn = function (...args) {
     // On click open dev tools
     if (warningIndicator) {
         warningIndicator.onclick = () => {
-            window.electron.ipcRenderer.send('show-dev-tools');
+            window.electron.ipcRenderer.send('show-console');
             // Clear the warning classes and hide the indicator
             const warningIcon = document.querySelector(
                 '#warningIndicator .warning-icon'

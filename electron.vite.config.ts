@@ -128,7 +128,8 @@ export default defineConfig(({ mode }) => {
         rollupOptions: {
           input: {
             client: resolve(__dirname, 'src/renderer/client.html'),
-            update: resolve(__dirname, 'src/renderer/update.html')
+            update: resolve(__dirname, 'src/renderer/update.html'),
+            console: resolve(__dirname, 'src/renderer/console.html')
           }
         }
       }
