@@ -215,13 +215,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babylonjs/core@npm:^8.20.0":
-  version: 8.20.0
-  resolution: "@babylonjs/core@npm:8.20.0"
-  checksum: 10c0/2a0dbefaa8de1e62ba1d37ddc0ba8592b2fcd2522e3bbb19cb7ac21d2f888af545ab8a6aef9fb192e0d615e2c32ac681f2d9ae6c23ce9498eafb438ff04753b8
-  languageName: node
-  linkType: hard
-
 "@develar/schema-utils@npm:~2.6.5":
   version: 2.6.5
   resolution: "@develar/schema-utils@npm:2.6.5"
@@ -581,15 +574,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@highlite/plugin-api@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@highlite/plugin-api@npm:1.1.0"
+"@highlite/plugin-api@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@highlite/plugin-api@npm:2.0.3"
   dependencies:
     acorn: "npm:^8.15.0"
     acorn-walk: "npm:^8.3.4"
     idb: "npm:^8.0.3"
     on-change: "npm:^5.0.1"
-  checksum: 10c0/963fd59d9a5a96e5be9f10e0df49a0e614ad6d3067425ea3540caf54ffa4f6afaebdbcdfe0b2bd7cbb24f044890f5b257780bb4a224d0805ee368a025c64b8db
+    tsc: "npm:^2.0.4"
+  checksum: 10c0/b15d4f9dd0782d0628e27c46b74e1bd81ba28810424f2c339d481bec92d04dfb7e3d553316e3e5d8cb92f52e0d9b8d9268764a2cdc47f070ad106ba84c9c092e
   languageName: node
   linkType: hard
 
@@ -983,11 +977,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 24.1.0
-  resolution: "@types/node@npm:24.1.0"
+  version: 24.2.0
+  resolution: "@types/node@npm:24.2.0"
   dependencies:
-    undici-types: "npm:~7.8.0"
-  checksum: 10c0/6c4686bc144f6ce7bffd4cadc3e1196e2217c1da4c639c637213719c8a3ee58b6c596b994befcbffeacd9d9eb0c3bff6529d2bc27da5d1cb9d58b1da0056f9f4
+    undici-types: "npm:~7.10.0"
+  checksum: 10c0/0b55af4d7b37fea47bbeffffaff908462fa19ea9b1a18f92d9ed6d8415d97971b254f8cb3f629cd238916e94711fdb6ac939aa750cb353dfd6df6c0339435740
   languageName: node
   linkType: hard
 
@@ -1240,7 +1234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:^3.2.3":
+"async@npm:^3.2.6":
   version: 3.2.6
   resolution: "async@npm:3.2.6"
   checksum: 10c0/36484bb15ceddf07078688d95e27076379cc2f87b10c03b6dd8a83e89475a3c8df5848859dd06a4c95af1e4c16fc973de0171a77f18ea00be899aca2a4f85e70
@@ -1477,7 +1471,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0, chalk@npm:^4.1.1, chalk@npm:^4.1.2":
+"chalk@npm:^4.0.0, chalk@npm:^4.1.0, chalk@npm:^4.1.1, chalk@npm:^4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -1870,9 +1864,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.173":
-  version: 1.5.194
-  resolution: "electron-to-chromium@npm:1.5.194"
-  checksum: 10c0/7d72617857055d54552380b34be411933966fa1156dc8653e321d14e82e2af84114bac607e9e2926f885d560b2697a324981e4204d3da4e0f9604d4a468eeba1
+  version: 1.5.199
+  resolution: "electron-to-chromium@npm:1.5.199"
+  checksum: 10c0/5586d20455407edc583e33422e370bbdc07913d8f5c73da2ae1c6adcc79c3be7384ecaf893978027cb26a410c1354f199a05edb99b1ab03dd0346e2201525148
   languageName: node
   linkType: hard
 
@@ -1915,15 +1909,15 @@ __metadata:
   linkType: hard
 
 "electron@npm:^37.2.5":
-  version: 37.2.5
-  resolution: "electron@npm:37.2.5"
+  version: 37.2.6
+  resolution: "electron@npm:37.2.6"
   dependencies:
     "@electron/get": "npm:^2.0.0"
     "@types/node": "npm:^22.7.7"
     extract-zip: "npm:^2.0.1"
   bin:
     electron: cli.js
-  checksum: 10c0/c93178dc4e25055a7f8b28afcd6fc3e9412906db5f03a64f2d2dd8453c5dee6eb34b2d6b3cd9bdf51853b7985db9869fc16a992187a4e16bf41458626c30efd0
+  checksum: 10c0/d0653bbaf6b449260d65d51aa12717ad8acaffce337d32e9892aea5cb70e1dc70f0da54393548595dd3a57cce1dbf699e3fa5d9155427f4151ada572f4430778
   languageName: node
   linkType: hard
 
@@ -2228,13 +2222,13 @@ __metadata:
   linkType: hard
 
 "fs-extra@npm:^11.1.1":
-  version: 11.3.0
-  resolution: "fs-extra@npm:11.3.0"
+  version: 11.3.1
+  resolution: "fs-extra@npm:11.3.1"
   dependencies:
     graceful-fs: "npm:^4.2.0"
     jsonfile: "npm:^6.0.1"
     universalify: "npm:^2.0.0"
-  checksum: 10c0/5f95e996186ff45463059feb115a22fb048bdaf7e487ecee8a8646c78ed8fdca63630e3077d4c16ce677051f5e60d3355a06f3cd61f3ca43f48cc58822a44d0a
+  checksum: 10c0/61e5b7285b1ca72c68dfe1058b2514294a922683afac2a80aa90540f9bd85370763d675e3b408ef500077d355956fece3bd24b546790e261c3d3015967e2b2d9
   languageName: node
   linkType: hard
 
@@ -2508,11 +2502,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "highlite@workspace:."
   dependencies:
-    "@babylonjs/core": "npm:^8.20.0"
     "@electron-toolkit/preload": "npm:^3.0.2"
     "@electron-toolkit/tsconfig": "npm:^1.0.1"
     "@electron-toolkit/utils": "npm:^4.0.0"
-    "@highlite/plugin-api": "npm:^1.1.0"
+    "@highlite/plugin-api": "npm:^2.0.3"
     "@iconify/iconify": "npm:^3.1.1"
     "@types/node": "npm:^22.17.0"
     electron: "npm:^37.2.5"
@@ -2766,16 +2759,15 @@ __metadata:
   linkType: hard
 
 "jake@npm:^10.8.5":
-  version: 10.9.2
-  resolution: "jake@npm:10.9.2"
+  version: 10.9.4
+  resolution: "jake@npm:10.9.4"
   dependencies:
-    async: "npm:^3.2.3"
-    chalk: "npm:^4.0.2"
+    async: "npm:^3.2.6"
     filelist: "npm:^1.0.4"
-    minimatch: "npm:^3.1.2"
+    picocolors: "npm:^1.1.1"
   bin:
     jake: bin/cli.js
-  checksum: 10c0/c4597b5ed9b6a908252feab296485a4f87cba9e26d6c20e0ca144fb69e0c40203d34a2efddb33b3d297b8bd59605e6c1f44f6221ca1e10e69175ecbf3ff5fe31
+  checksum: 10c0/bb52f000340d4a32f1a3893b9abe56ef2b77c25da4dbf2c0c874a8159d082dddda50a5ad10e26060198bd645b928ba8dba3b362710f46a247e335321188c5a9c
   languageName: node
   linkType: hard
 
@@ -3086,7 +3078,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
+"minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.1":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"
   dependencies:
@@ -3697,7 +3689,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^4.40.0":
+"rollup@npm:^4.43.0":
   version: 4.46.2
   resolution: "rollup@npm:4.46.2"
   dependencies:
@@ -4131,9 +4123,9 @@ __metadata:
   linkType: hard
 
 "tmp@npm:^0.2.0":
-  version: 0.2.3
-  resolution: "tmp@npm:0.2.3"
-  checksum: 10c0/3e809d9c2f46817475b452725c2aaa5d11985cf18d32a7a970ff25b568438e2c076c2e8609224feef3b7923fa9749b74428e3e634f6b8e520c534eef2fd24125
+  version: 0.2.4
+  resolution: "tmp@npm:0.2.4"
+  checksum: 10c0/ac4a7538a9ddb89ead6f4ee019bc23c28ce31549a0bd0ba499a64f81e0804b1e9a3a758622b33807a1f9644dbde9a0205637985f9450abdba1d5062704f98782
   languageName: node
   linkType: hard
 
@@ -4150,6 +4142,15 @@ __metadata:
   version: 1.3.3
   resolution: "ts-simple-nameof@npm:1.3.3"
   checksum: 10c0/2b895e39c0a5826ea99abda7cf6c12c10e3ce99e7193be3fbec3a1028db2437d8532cd828df38db9ba9bf6e481d606596ac9316c6e3f7cbeb0c9cb9260799146
+  languageName: node
+  linkType: hard
+
+"tsc@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "tsc@npm:2.0.4"
+  bin:
+    tsc: bin/tsc
+  checksum: 10c0/4651d344891d995e62ab7ca64ce0a8597bbdc2d392886c9956d15caab4dc9bfe86e759d3385b3f97c49fb5294194a161d6812673e3f51e46357c82482f32c3ab
   languageName: node
   linkType: hard
 
@@ -4187,10 +4188,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~7.8.0":
-  version: 7.8.0
-  resolution: "undici-types@npm:7.8.0"
-  checksum: 10c0/9d9d246d1dc32f318d46116efe3cfca5a72d4f16828febc1918d94e58f6ffcf39c158aa28bf5b4fc52f410446bc7858f35151367bd7a49f21746cab6497b709b
+"undici-types@npm:~7.10.0":
+  version: 7.10.0
+  resolution: "undici-types@npm:7.10.0"
+  checksum: 10c0/8b00ce50e235fe3cc601307f148b5e8fb427092ee3b23e8118ec0a5d7f68eca8cee468c8fc9f15cbb2cf2a3797945ebceb1cbd9732306a1d00e0a9b6afa0f635
   languageName: node
   linkType: hard
 
@@ -4305,15 +4306,15 @@ __metadata:
   linkType: hard
 
 "vite@npm:^7.0.6":
-  version: 7.0.6
-  resolution: "vite@npm:7.0.6"
+  version: 7.1.1
+  resolution: "vite@npm:7.1.1"
   dependencies:
     esbuild: "npm:^0.25.0"
     fdir: "npm:^6.4.6"
     fsevents: "npm:~2.3.3"
     picomatch: "npm:^4.0.3"
     postcss: "npm:^8.5.6"
-    rollup: "npm:^4.40.0"
+    rollup: "npm:^4.43.0"
     tinyglobby: "npm:^0.2.14"
   peerDependencies:
     "@types/node": ^20.19.0 || >=22.12.0
@@ -4355,7 +4356,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10c0/3b14dfa661281b4843789884199ba2a9cca940a7666970036fe3fb1abff52b88e63e8be5ab419dd04d9f96c0415ee0f1e3ec8ebe357041648af7ccd8e348b6ad
+  checksum: 10c0/391a5c8b8f287b7b1653dedbe952fb4cb93bf7c99b19dab915cf63497892427198fef637e943a3391eacfecf7f2e8f55c40d0fa065fabdd885641430d0b74af7
   languageName: node
   linkType: hard
 

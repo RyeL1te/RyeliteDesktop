@@ -17,10 +17,8 @@ import { app, ipcMain, BrowserWindow } from 'electron';
 import { createUpdateWindow } from './windows/updater';
 import { createClientWindow } from './windows/client';
 import { createConsoleWindow } from './windows/console';
-import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { electronApp } from '@electron-toolkit/utils';
 import log from 'electron-log';
-import * as fs from 'fs';
-import * as path from 'path';
 
 log.initialize({ spyRendererConsole: true });
 log.transports.console.level = 'info';
