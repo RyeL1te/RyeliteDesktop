@@ -33,7 +33,7 @@
     "appId": "com.highlite.desktop",
     "asar": true,
     "files": [
-      "out/**/*"
+      "out/**/*.*"
     ],
     "productName": "HighLite",
     "publish": [

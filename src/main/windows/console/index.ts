@@ -26,7 +26,7 @@ export async function createConsoleWindow() {
             webSecurity: app.isPackaged, // Disable web security only in development for CORS
             
         },
-        icon: path.join(__dirname, 'static/icons/icon.png'),
+        icon: path.join(__dirname, 'icons/icon.png'),
         titleBarStyle: 'hidden',
         show: false, // Start hidden, show when ready
     });

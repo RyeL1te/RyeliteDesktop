@@ -33,7 +33,7 @@ export async function createClientWindow() {
         },
         minHeight: 500,
         minWidth: 500,
-        icon: path.join(__dirname, 'static/icons/icon.png'),
+        icon: path.join(__dirname, 'icons/icon.png'),
         titleBarStyle: 'hidden',
         show: true,
     });

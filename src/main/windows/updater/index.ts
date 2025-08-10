@@ -29,7 +29,7 @@ export async function createUpdateWindow() {
         },
         frame: true,
         resizable: false,
-        icon: path.join(__dirname, 'static/icons/icon.png'),
+        icon: path.join(__dirname, 'icons/icon.png'),
         titleBarStyle: 'hidden',
         width: 600,
         height: 400,
