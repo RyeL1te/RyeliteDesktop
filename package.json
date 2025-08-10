@@ -18,11 +18,9 @@
   "author": "Highlite Team",
   "main": "./out/main/index.js",
   "scripts": {
-    "predev": "node scripts/download-plugins.js",
-    "prebuild": "node scripts/download-plugins.js",
     "dev": "electron-vite dev",
     "start": "electron-vite preview",
-    "build": "yarn predev && electron-vite build",
+    "build": "electron-vite build",
     "build:unpack": "yarn build && electron-builder --dir",
     "build:win": "yarn build && electron-builder --win",
     "build:mac": "yarn build && electron-builder --mac",
