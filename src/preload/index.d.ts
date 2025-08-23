@@ -14,10 +14,19 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { ElectronAPI } from '@electron-toolkit/preload';
-
 declare global {
     interface Window {
         electron: ElectronAPI;
-        api: unknown;
+        settings: {
+            get: (section: string, key: string) => Promise<any>;
+            set: (section: string, key: string, value: any) => Promise<void>;
+            getAll: () => Promise<Record<string, any>>;
+            getByName: (label: string) => Promise<any>;
+            selectDirectory: (options?: { title?: string; defaultPath?: string }) => Promise<string | null>;
+            validateDirectory: (dirPath: string) => Promise<boolean>;
+        };
+        screenshot: {
+            capture: () => Promise<{ ok: boolean; path?: string; error?: string }>;
+        }
     }
 }

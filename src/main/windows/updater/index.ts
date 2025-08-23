@@ -17,10 +17,30 @@ import { ipcMain, BrowserWindow, app, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import path from 'path';
+import { settingsService } from '../../modules/settingsManagement';
 
-autoUpdater.autoDownload = false; // Disable auto download to control it manually
+async function configureAutoUpdater() {
+    autoUpdater.autoDownload = false; // Disable auto download to control it manually
+    await settingsService.load();
+
+    if (settingsService.getByName('Release Channel') == 'Beta') {
+        log.info('Using Beta channel for updates');
+        autoUpdater.allowDowngrade = false;
+        autoUpdater.allowPrerelease = true;
+    }
+
+    if (settingsService.getByName('Release Channel') === 'Stable') {
+        log.info('Using Stable channel for updates');
+        autoUpdater.allowDowngrade = true;
+        autoUpdater.allowPrerelease = false;
+    }
+
+    return Promise.resolve();
+}
+
 
 export async function createUpdateWindow() {
+    await configureAutoUpdater();
     const updateWindow = new BrowserWindow({
         title: 'Updating HighLite...',
         webPreferences: {

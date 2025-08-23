@@ -13,12 +13,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { app, ipcMain, BrowserWindow } from 'electron';
-import { createUpdateWindow } from './windows/updater';
-import { createClientWindow } from './windows/client';
-import { createConsoleWindow } from './windows/console';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { electronApp } from '@electron-toolkit/utils';
+import { createUpdateWindow } from './windows/updater';
+import { createConsoleWindow } from './windows/console';
+import { createClientWindow } from './windows/client';
 import log from 'electron-log';
+import registerScreenshotIPC from './modules/screenshotManagement/index';
 
 log.initialize({ spyRendererConsole: true });
 log.transports.console.level = 'info';
@@ -29,11 +30,20 @@ if (!gotTheLock) {
     app.quit();
 }
 
+// Keep a reference to the hidden console window so we can close it when no other windows remain
+
+let consoleWindowRef: BrowserWindow | null = null;
+
 app.whenReady().then(async () => {
     electronApp.setAppUserModelId('com.highlite.desktop');
     const updateWindow: BrowserWindow = await createUpdateWindow();
-    const consoleWindow: BrowserWindow = await createConsoleWindow();
 
+    consoleWindowRef = await createConsoleWindow();
+    consoleWindowRef.on('closed', () => {
+        consoleWindowRef = null;
+    });
+
+    registerScreenshotIPC();
     ipcMain.once('delay-update', async () => {
         await createClientWindow();
         updateWindow.close();
@@ -42,6 +52,20 @@ app.whenReady().then(async () => {
     ipcMain.on('no-update-available', async () => {
         await createClientWindow();
         updateWindow.close();
+    });
+
+    // For any future windows created elsewhere, attach a closed handler
+    // to determine when only the console window is left.
+    app.on('browser-window-created', (_event, win) => {
+        if (win !== consoleWindowRef) {
+            win.on('closed', () => {
+                const others = BrowserWindow.getAllWindows().filter(w => w !== consoleWindowRef);
+                if (others.length === 0 && consoleWindowRef && !consoleWindowRef.isDestroyed()) {
+                    consoleWindowRef.close();
+                    consoleWindowRef = null;
+                }
+            });
+        }
     });
 
     app.on('activate', () => {
@@ -53,7 +77,7 @@ app.whenReady().then(async () => {
     });
 });
 
-app.on('second-instance', (event, argv, workingDirectory) => {
+app.on('second-instance', (_event, _argv, _workingDirectory) => {
     // Someone tried to run a second instance, open a new window in response.
     createClientWindow();
 });

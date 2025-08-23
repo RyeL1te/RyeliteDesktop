@@ -13,10 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { Highlite } from '@highlite/plugin-api'
-import { Reflector } from '@highlite/plugin-api'
-import { HighliteResources } from '@highlite/plugin-api';
-
+import { Highlite } from '@highlite/core'
+import { Reflector } from '@highlite/core'
+import { HighliteResources } from '@highlite/core';
 import '@iconify/iconify';
 import '@static/css/index.css';
 import '@static/css/overrides.css';
@@ -24,6 +23,9 @@ import '@static/css/item-tooltip.css';
 
 import './helpers/titlebarHelpers.js';
 import { setupWorldSelectorObserver } from './helpers/worldSelectHelper';
+
+// Load settings via centralized API (values are available via window.settings)
+await window.settings.getAll();
 
 async function obtainGameClient() {
     const highspellAssetsURL = 'https://highspell.com:3002/assetsClient';
@@ -239,39 +241,44 @@ import('./helpers/userHelper').then(module => {
     module.createUserHelper();
 });
 
-let highlite = new Highlite();
+if (await window.settings.getByName('Enable Plugins')) {
+    let highlite = new Highlite();
 
-// Load and register all plugins using dynamic imports
-console.log('[Highlite] Loading plugins...');
-const loadedPlugins: Array<{ class: any; name: string; }> = [];
+    // Load and register all plugins using dynamic imports
+    console.log('[Highlite] Loading plugins...');
+    const loadedPlugins: Array<{ class: any; name: string; }> = [];
 
-try {
-    const pluginModules = import.meta.glob('./plugins/*.js', { eager: true });
+    try {
+        const pluginModules = import.meta.glob('./plugins/*.js', { eager: true });
 
-    for (const [path, moduleLoader] of Object.entries(pluginModules)) {
-        try {
-            const pluginName = path.split('/').pop()?.replace('.js', '') || 'UnknownPlugin';
-            // Dynamically import the plugin module
-            const PluginClass = (moduleLoader as any).default;
+        for (const [path, moduleLoader] of Object.entries(pluginModules)) {
+            try {
+                const pluginName = path.split('/').pop()?.replace('.js', '') || 'UnknownPlugin';
+                // Dynamically import the plugin module
+                const PluginClass = (moduleLoader as any).default;
 
-            if (PluginClass) {
-                highlite.pluginManager.registerPlugin(PluginClass);
-                loadedPlugins.push({
-                    class: PluginClass,
-                    name: pluginName,
-                });
-            } else {
-                console.error(`[Highlite] Plugin class not found in module: ${pluginName}`);
+                if (PluginClass) {
+                    highlite.pluginManager.registerPlugin(PluginClass);
+                    loadedPlugins.push({
+                        class: PluginClass,
+                        name: pluginName,
+                    });
+                } else {
+                    console.error(`[Highlite] Plugin class not found in module: ${pluginName}`);
+                }
+            } catch (error) {
+                console.error(`[Highlite] Failed to load plugin from ${path}:`, error);
             }
-        } catch (error) {
-            console.error(`[Highlite] Failed to load plugin from ${path}:`, error);
         }
+    } catch (error) {
+        console.error('[Highlite] Error loading plugins:', error);
     }
-} catch (error) {
-    console.error('[Highlite] Error loading plugins:', error);
+    await highlite.start();
+} else {
+    for (const element of document.getElementsByClassName('highlite-ui')) {
+        element.remove();
+    }
 }
-
-await highlite.start();
 window.electron.ipcRenderer.send('ui-ready');
 document.dispatchEvent(
     new Event('DOMContentLoaded', {
@@ -279,3 +286,4 @@ document.dispatchEvent(
         cancelable: true,
     })
 );
+

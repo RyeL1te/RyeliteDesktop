@@ -19,7 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
         <script type="importmap">
             {
                 "imports": {
-                    "@highlite/plugin-api": "https://cdn.jsdelivr.net/npm/@highlite/plugin-api@2.0.5/dist/index.min.js",
+                    "@highlite/plugin-api": "https://cdn.jsdelivr.net/npm/@highlite/core@2.1.1/dist/index.min.js",
+                    "@highlite/core": "https://cdn.jsdelivr.net/npm/@highlite/core@2.1.1/dist/index.min.js",
                     "@babylonjs/": "https://cdn.jsdelivr.net/npm/@babylonjs/"
                 }
             }
@@ -29,17 +30,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
         <meta charset="UTF-8" />
         <style>
-            #iconbar .iconify {
-                margin: 0 5px;
-                font-size: 16px;
-                color: var(--theme-text-primary, #ffffff);
-                transition: color 0.2s ease;
-            }
-
-            #iconbar a:hover .iconify {
-                color: var(--theme-accent, #f9f449);
-            }
-
             /* Warning indicator specific styles */
             #warningIndicator .warning-icon {
                 color: var(--theme-text-primary, #ffffff);
@@ -56,19 +46,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
             #warningIndicator:hover .warning-icon {
                 transform: scale(1.1);
                 transition: transform 0.2s ease;
-            }
-
-            #iconbar #window-controls {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-left: 20px;
-                width: 65px;
-                margin-right: 0px;
-            }
-
-            #window-controls .window-control .iconify {
-                font-size: 14px;
             }
         </style>
     </head>
@@ -90,6 +67,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
                     ><i
                         class="iconify warning-icon"
                         data-icon="material-symbols:warning-outline"
+                    ></i
+                ></a>
+                <a id="settingsBtn" href="#"
+                    ><i
+                        class="iconify"
+                        data-icon="mdi:cog"
+                    ></i
+                ></a>
+                <a id="screenshotBtn" href="#" title="Take Screenshot"
+                    ><i
+                        class="iconify"
+                        data-icon="mdi:camera"
                     ></i
                 ></a>
 
@@ -116,9 +105,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
                 </div>
             </div>
         </div>
+        <!-- Temporarily disable the video due to incompatibility with the new Shader system
+         Hopefully we can add it back in next patch by checking for user logged in status
+         
         <video width="100%" height="100%" autoplay muted loop class="video-background">
             <source src="/media/login_screen.webm" type="video/webm"/>
         </video>
+        -->
         <script type="module" src="client/client.ts"></script>
     </body>
 </html>

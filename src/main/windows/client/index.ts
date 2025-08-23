@@ -29,6 +29,11 @@ export async function createClientWindow() {
         webPreferences: {
             preload: path.join(__dirname, '../preload/index.js'),
             sandbox: false, // Disable sandboxing for compatibility with some libraries
+            contextIsolation: true,
+            nodeIntegration: false,
+            nodeIntegrationInSubFrames: false,
+            nodeIntegrationInWorker: false,
+
             webSecurity: app.isPackaged, // Disable web security only in development for CORS
         },
         minHeight: 500,

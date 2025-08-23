@@ -188,3 +188,26 @@ body {
     object-fit: cover;
     filter: blur(3px);
 }
+#iconbar .iconify {
+    margin: 0 5px;
+    font-size: 16px;
+    color: var(--theme-text-primary, #ffffff);
+    transition: color 0.2s ease;
+}
+
+#iconbar a:hover .iconify {
+    color: var(--theme-accent, #f9f449);
+}
+
+#iconbar #window-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 20px;
+    width: 65px;
+    margin-right: 0px;
+}
+
+#window-controls .window-control .iconify {
+    font-size: 14px;
+}

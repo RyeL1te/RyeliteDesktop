@@ -57,7 +57,8 @@ export default defineConfig(({ mode }) => {
           input: {
             client: resolve(__dirname, 'src/renderer/client.html'),
             update: resolve(__dirname, 'src/renderer/update.html'),
-            console: resolve(__dirname, 'src/renderer/console.html')
+            console: resolve(__dirname, 'src/renderer/console.html'),
+            settings: resolve(__dirname, 'src/renderer/settings.html'),
           }
         }
       }

@@ -76,6 +76,8 @@ console.warn = function (...args) {
 const minimizeButton = document.querySelector('#minimizeBtn');
 const maximizeButton = document.querySelector('#maximizeBtn');
 const closeButton = document.querySelector('#closeBtn');
+const settingsButton = document.querySelector('#settingsBtn');
+const screenshotButton = document.querySelector('#screenshotBtn');
 
 // Add click event listeners to the buttons
 minimizeButton.addEventListener('click', () => {
@@ -87,6 +89,19 @@ maximizeButton.addEventListener('click', () => {
 closeButton.addEventListener('click', () => {
     window.electron.ipcRenderer.send('close-window');
 });
+settingsButton.addEventListener('click', () => {
+    window.electron.ipcRenderer.send('settings:open');
+});
+
+// Screenshot capture button
+if (screenshotButton) {
+    screenshotButton.addEventListener('click', async () => {
+        const res = await window.screenshot.capture();
+        if (!res.ok) {
+            console.error('Screenshot failed:', res.error);
+        }
+    });
+}
 
 const isDarwin = window.electron.process.platform === 'darwin';
 

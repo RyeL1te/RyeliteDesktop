@@ -213,7 +213,7 @@ class ConsoleManager {
 
 const consoleManager = new ConsoleManager();
 consoleManager.init();
-
+import '@iconify/iconify';
 // Window control handlers
 function setupWindowControls() {
     // Obtain references to the minimize, maximize, and close buttons

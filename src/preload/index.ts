@@ -13,25 +13,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { contextBridge } from 'electron';
+
+import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 
-// Custom APIs for renderer
-const api = {};
+const settingsAPI = {
+    get: async (section, key) => ipcRenderer.invoke('settings:get', section, key),
+    set: async (section, key, value) => ipcRenderer.invoke('settings:set', section, key, value),
+    getAll: async () => ipcRenderer.invoke('settings:getAll'),
+    getByName: async (label) => ipcRenderer.invoke('settings:getByName', label),
+    selectDirectory: async (options) => ipcRenderer.invoke('settings:select-directory', options),
+    validateDirectory: async (dirPath) => ipcRenderer.invoke('settings:validate-directory', dirPath),
+};
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
+const screenshotAPI = {
+    capture: async () => ipcRenderer.invoke('screenshot:capture') as Promise<{ ok: boolean; path?: string; error?: string }>,
+};
+
 if (process.contextIsolated) {
     try {
         contextBridge.exposeInMainWorld('electron', electronAPI);
-        contextBridge.exposeInMainWorld('api', api);
+        contextBridge.exposeInMainWorld('settings', settingsAPI);
+        contextBridge.exposeInMainWorld('screenshot', screenshotAPI);
     } catch (error) {
         console.error(error);
     }
 } else {
     // @ts-ignore (define in dts)
     window.electron = electronAPI;
-    // @ts-ignore (define in dts)
-    window.api = api;
+    // @ts-ignore
+    window.settings = settingsAPI;
+    // @ts-ignore
+    window.screenshot = screenshotAPI;
 }

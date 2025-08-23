@@ -2,6 +2,10 @@ name: Build/release
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - staging
 
 jobs:
   release:
@@ -26,10 +30,10 @@ jobs:
       - name: Install Package Dependencies
         run: yarn install
 
-      - name: Build/release Electron app
+      - name: Build
+        run: yarn build
+
+      - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        uses: paneron/action-electron-builder@v1.8.1
-        with:
-          github_token: ${{ secrets.github_token }}
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn release
