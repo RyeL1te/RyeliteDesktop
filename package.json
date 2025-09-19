@@ -1,7 +1,7 @@
 {
   "name": "highlite",
   "productName": "HighLite",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "A RuneLite-esque Client for the game High Spell",
   "homepage": "https://github.com/Highl1te/HighliteDesktop#readme",
   "engines": {
@@ -92,6 +92,7 @@
     "shortcutName": "HighLite"
   },
   "dependencies": {
+    "@babylonjs/core": "^8.28.1",
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
     "@highlite/core": "^2.2.0",
