@@ -7,6 +7,9 @@
 </p>
 
 # HighLite
+
+**As of 9/18/2025 Highl1te Development has been paused indefinitely**
+
 HighLite is an open-source game client for High Spell and has received permission to operate from the game developer (Dew).
 
 # Installing HighLite
