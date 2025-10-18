@@ -6,19 +6,17 @@
   <img alt="Downloads" src="https://img.shields.io/github/downloads/Highl1te/HighliteDesktop/latest/total?label=Downloads&color=blue">
 </p>
 
-# HighLite
+# RyeLite
 
-**As of 9/18/2025 Highl1te Development has been paused indefinitely**
+RyeLite is an open-source game client for High Spell, forked from HighLite. RyeLite is aimed to be a continuation of HighLite, as HL is no longer updated.
 
-HighLite is an open-source game client for High Spell and has received permission to operate from the game developer (Dew).
-
-# Installing HighLite
-HighLite is packaged as an Electron application and provides [Linux](#Linux), [MacOS](#MacOS), and [Windows](#Windows) support.
+# Installing RyeLite
+RyeLite is packaged as an Electron application and provides [Linux](#Linux), [MacOS](#MacOS), and [Windows](#Windows) support.
 
 ## Windows
-1. Obtain the .exe file from the [latest release](https://github.com/Highl1te/HighliteDesktop/releases/latest)
+1. Obtain the .exe file from the [latest release](https://github.com/ash-of-the-meadow/RyeliteDesktop/releases/latest)
 > [!WARNING]
-> In Microsoft Edge, you may recieve a download warning due to HighLite not being commonly downloaded.
+> In Microsoft Edge, you may recieve a download warning due to RyeLite not being commonly downloaded.
 >
 > ![image](https://github.com/user-attachments/assets/8dd15f93-29c4-42a8-966b-1bd8a83fa66c)
 >
@@ -26,7 +24,7 @@ HighLite is packaged as an Electron application and provides [Linux](#Linux), [M
 
 
 > [!WARNING]
-> HighLite is currently un-signed due to the inherent cost of obtaining signing certificates for software. This results in install and download warnings.
+> RyeLite is currently un-signed due to the inherent cost of obtaining signing certificates for software. This results in install and download warnings.
 > If we recieve enough players (or complaints!) we will invest in obtaining certificates.
 >
 > ![image](https://github.com/user-attachments/assets/90651443-a7ed-42b1-8e60-60af2a54fbf1)
@@ -36,10 +34,10 @@ HighLite is packaged as an Electron application and provides [Linux](#Linux), [M
 > ![image](https://github.com/user-attachments/assets/f1537d49-7aac-4344-ba6a-77a01339e63f)
 >
 
-3. Install HighLite
+3. Install RyeLite
 4. You will be prompted by the game client when launching to automatically install any future updates!
 ## Linux
-1. Obtain the .AppImage file from the [latest release](https://github.com/Highl1te/HighliteDesktop/releases/latest)
+1. Obtain the .AppImage file from the [latest release](https://github.com/ash-of-the-meadow/RyeliteDesktop/releases/latest)
 2. Execute the AppImage
 3. You will be prompted by the game client when launching to automatically install any future updates!
 ## MacOS
@@ -49,9 +47,9 @@ HighLite is packaged as an Electron application and provides [Linux](#Linux), [M
 1. Instructions Pending
 
 # Related Repositories
-The HighLite ecosystem is distributed across multiple repositories, each serving a specific purpose in the overall architecture.
+The RyeLite ecosystem is distributed across multiple repositories, each serving a specific purpose in the overall architecture.
 
-### [Desktop Application](https://github.com/Highl1te/HighliteDesktop)
+### [Desktop Application](https://github.com/ash-of-the-meadow/RyeliteDesktop)
 This repository! The desktop application handles:
 - Electron-based desktop application mechanics
 - Window management and user interface
@@ -59,15 +57,16 @@ This repository! The desktop application handles:
 - Auto-updater functionality
 - Cross-platform builds (Windows, Linux, macOS)
 
-### [Core](https://github.com/Highl1te/Core)
-The core repository provides APIs for interacting with the High Spell game code:
-- **@highlite/plugin-api** - TypeScript type definitions for plugin development
+### [Core](https://github.com/ash-of-the-meadow/rl-core)
+The core repository provides two APIs for interacting with the High Spell game code:
+- **@highlite/plugin-api** - Deprecated API - TypeScript type definitions for plugin development - Older api to support current plugins. Support is maintained, but new plugins and code should use ryelite-core.
+- **@ryelite/core** - TypeScript type definitions for plugin development - Current up-to-date api that newer code and plugins should use, unless a feature is only available in the older api.
 - Game state monitoring and interaction APIs
 - High Spell game client integration layer
 - Plugin development framework and utilities
 - Shared interfaces for game data access
 
-### [Plugin Hub](https://github.com/Highl1te/Plugin-Hub)
+### [Plugin Hub](https://github.com/ash-of-the-meadow/rl-plugin-hub)
 The Plugin Hub serves as the central registry:
 - Verified plugin configurations
 - Plugin version management
@@ -80,8 +79,8 @@ The Plugin Hub serves as the central registry:
 ## Getting Started
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Highl1te/HighliteDesktop.git
-   cd HighliteDesktop
+   git clone https://github.com/ash-of-the-meadow/RyeliteDesktop.git
+   cd RyeliteDesktop
    ```
 
 2. **Install dependencies**
