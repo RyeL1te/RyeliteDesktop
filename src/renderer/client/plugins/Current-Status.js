@@ -1,5 +1,5 @@
 // src/CurrentStatus.ts
-import { Plugin, UIManager, UIManagerScope, ActionState } from "@highlite/core";
+import { Plugin, UIManager, UIManagerScope, ActionState } from "@ryelite/core";
 var CurrentStatus = class extends Plugin {
   constructor() {
     super();

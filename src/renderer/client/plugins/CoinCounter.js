@@ -1,10 +1,10 @@
 // src/CoinCounter.ts
-import { Plugin } from "@highlite/core";
+import { Plugin } from "@ryelite/core";
 import {
   UIManager,
   UIManagerScope,
   abbreviateValue
-} from "@highlite/core";
+} from "@ryelite/core";
 var CoinCounter = class extends Plugin {
   constructor() {
     super();

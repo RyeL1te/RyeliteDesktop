@@ -1,6 +1,6 @@
 // src/ImprovedSkillGuides.ts
-import { Plugin, SettingsTypes, UIManager } from "@highlite/core";
-import { PanelManager } from "@highlite/core";
+import { Plugin, SettingsTypes, UIManager } from "@ryelite/core";
+import { PanelManager } from "@ryelite/core";
 
 // src/lookupTable.json
 var lookupTable_default = {

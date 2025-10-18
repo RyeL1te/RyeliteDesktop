@@ -1,5 +1,5 @@
 // src/PlayerTagger.ts
-import { Plugin, SettingsTypes } from "@highlite/core";
+import { Plugin, SettingsTypes } from "@ryelite/core";
 var PlayerTagger = class extends Plugin {
   constructor() {
     super();

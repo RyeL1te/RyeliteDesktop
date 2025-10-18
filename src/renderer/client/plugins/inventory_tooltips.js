@@ -1,5 +1,5 @@
 // src/InventoryTooltips.ts
-import { Plugin, SettingsTypes, UIManager, UIManagerScope } from "@highlite/core";
+import { Plugin, SettingsTypes, UIManager, UIManagerScope } from "@ryelite/core";
 var InventoryTooltips = class extends Plugin {
   /**
    * Plugin setting to enable/disable inventory tooltips.

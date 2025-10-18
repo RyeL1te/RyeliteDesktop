@@ -1,5 +1,5 @@
 // src/EntityHighlight.ts
-import { Plugin, SettingsTypes, UIManagerScope, UIManager } from "@highlite/core";
+import { Plugin, SettingsTypes, UIManagerScope, UIManager } from "@ryelite/core";
 import { Vector3 } from "@babylonjs/core/Maths/math.js";
 var EntityHighlight = class extends Plugin {
   constructor() {

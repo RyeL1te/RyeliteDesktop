@@ -1,5 +1,5 @@
 // src/ExtraInfoBar.ts
-import { Plugin, UIManager, UIManagerScope } from "@highlite/core";
+import { Plugin, UIManager, UIManagerScope } from "@ryelite/core";
 var ExtraInfoBar = class extends Plugin {
   /**
    * Plugin setting to enable/disable inventory tooltips.

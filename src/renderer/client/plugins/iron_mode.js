@@ -1,6 +1,6 @@
 // src/IronMode.ts
-import { Plugin, SettingsTypes } from "@highlite/core";
-import { PanelManager } from "@highlite/core";
+import { Plugin, SettingsTypes } from "@ryelite/core";
+import { PanelManager } from "@ryelite/core";
 
 // resources/css/ironmode.css
 var ironmode_default = "@scope{.iron-mode-helm-icon{width:16px!important;height:16px!important;margin-right:4px!important;vertical-align:middle!important;display:inline-block!important;image-rendering:pixelated!important;image-rendering:-moz-crisp-edges!important;image-rendering:crisp-edges!important}.hs-chat-message-container[data-iron-mode-processed=true] .hs-chat-menu__pre-text{display:inline-flex!important;align-items:center!important}}\n";

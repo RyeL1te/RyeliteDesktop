@@ -1,5 +1,5 @@
 // src/BankTabs.ts
-import { Plugin, SettingsTypes } from "@highlite/core";
+import { Plugin, SettingsTypes } from "@ryelite/core";
 var BankTabs = class extends Plugin {
   constructor() {
     super();

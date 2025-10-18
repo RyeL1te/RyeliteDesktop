@@ -1,5 +1,5 @@
 // src/StatBarsPlugin.ts
-import { Plugin, SettingsTypes } from "@highlite/core";
+import { Plugin, SettingsTypes } from "@ryelite/core";
 
 // src/styles.css
 var styles_default = "#hs-stats-menu:has( .hl-stat-bars-progress-bar) .hs-stats-menu__information-panel {\n    padding: 0.25rem 0.5rem;\n}\n\n#hs-stats-menu .hl-stat-bars-progress-bar {\n    position: relative;\n    height: 3px;\n    margin-top: 2px;\n    border-radius: calc(1px * Infinity);\n    overflow: hidden;\n}\n\n#hs-stats-menu .hl-stat-bars-progress-bar > * {\n    position: absolute;\n    height: 100%;\n    border-radius: calc(1px * Infinity);\n}";

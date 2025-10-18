@@ -1,5 +1,5 @@
 // src/QuickActionMouseTooltip.ts
-import { Plugin, SettingsTypes, UIManager, UIManagerScope } from "@highlite/core";
+import { Plugin, SettingsTypes, UIManager, UIManagerScope } from "@ryelite/core";
 
 // resources/css/base.css
 var base_default = "@scope{.hlt-tooltip{position:fixed;background:#1e1e28f7;color:#fff;padding:8px 12px;border-radius:8px;box-shadow:0 2px 12px #00000080;z-index:9999;font-family:inherit;pointer-events:none;max-width:320px;font-size:14px}.hlt-tooltip-title{font-weight:700;font-size:15px;display:block}}\n";

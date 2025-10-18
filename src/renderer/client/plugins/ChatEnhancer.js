@@ -1,5 +1,5 @@
 // src/ChatEnhancer.ts
-import { Plugin, SettingsTypes } from "@highlite/core";
+import { Plugin, SettingsTypes } from "@ryelite/core";
 var ChatEnhancer = class extends Plugin {
   constructor() {
     super();

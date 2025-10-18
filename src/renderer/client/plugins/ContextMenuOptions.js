@@ -1,6 +1,6 @@
 // src/ContextMenuOptions.ts
-import { Plugin } from "@highlite/core";
-import { ContextMenuManager } from "@highlite/core";
+import { Plugin } from "@ryelite/core";
+import { ContextMenuManager } from "@ryelite/core";
 var ContextMenuOptions = class extends Plugin {
   constructor() {
     super();

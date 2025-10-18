@@ -1,5 +1,5 @@
 // src/XPOrb.ts
-import { Plugin, SettingsTypes } from "@highlite/core";
+import { Plugin, SettingsTypes } from "@ryelite/core";
 var XPOrb = class extends Plugin {
   constructor() {
     super();

@@ -1,5 +1,5 @@
-import { Plugin, SettingsTypes } from '@highlite/core';
-import { PanelManager } from '@highlite/core';
+import { Plugin, SettingsTypes } from '@ryelite/core';
+import { PanelManager } from '@ryelite/core';
 
 export default class CoinCounter extends Plugin {
     pluginName = "Closing";

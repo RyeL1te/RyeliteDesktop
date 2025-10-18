@@ -1,5 +1,5 @@
 // src/DropLog.ts
-import { Plugin, SettingsTypes, PanelManager } from "@highlite/core";
+import { Plugin, SettingsTypes, PanelManager } from "@ryelite/core";
 var DropLog = class extends Plugin {
   constructor() {
     super();

@@ -1,5 +1,5 @@
 // src/TtsChat.ts
-import { Plugin, SettingsTypes } from "@highlite/core";
+import { Plugin, SettingsTypes } from "@ryelite/core";
 var TtsChat = class extends Plugin {
   constructor() {
     super();

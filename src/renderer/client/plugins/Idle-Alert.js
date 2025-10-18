@@ -1,9 +1,9 @@
 // src/IdleAlert.ts
-import { Plugin, SettingsTypes } from "@highlite/core";
-import { NotificationManager, SoundManager, ActionState } from "@highlite/core";
+import { Plugin, SettingsTypes } from "@ryelite/core";
+import { NotificationManager, SoundManager, ActionState } from "@ryelite/core";
 
 // src/IdleOverlay.ts
-import { UIManager, UIManagerScope } from "@highlite/core";
+import { UIManager, UIManagerScope } from "@ryelite/core";
 var IdleOverlay = class {
   constructor() {
     this.overlay = new UIManager().createElement(

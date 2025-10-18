@@ -1,5 +1,5 @@
 // src/DefinitionsPanel.ts
-import { Plugin, PanelManager } from "@highlite/core";
+import { Plugin, PanelManager } from "@ryelite/core";
 var DefinitionsPanel = class extends Plugin {
   constructor() {
     super(...arguments);

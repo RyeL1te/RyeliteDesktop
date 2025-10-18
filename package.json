@@ -1,21 +1,21 @@
 {
-  "name": "highlite",
-  "productName": "HighLite",
+  "name": "ryelite",
+  "productName": "RyeLite",
   "version": "3.0.0",
   "description": "A RuneLite-esque Client for the game High Spell",
-  "homepage": "https://github.com/Highl1te/HighliteDesktop#readme",
+  "homepage": "https://github.com/ash-of-the-meadow/rl-core#readme",
   "engines": {
     "node": "^22.x.x"
   },
   "bugs": {
-    "url": "https://github.com/Highl1te/HighliteDesktop/issues"
+    "url": "https://github.com/ash-of-the-meadow/rl-core/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Highl1te/HighliteDesktop.git"
+    "url": "git+https://github.com/ash-of-the-meadow/RyeliteDesktop/.git"
   },
   "license": "GPL-3.0-only",
-  "author": "Highlite Team",
+  "author": "Ryelite Team",
   "main": "./out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
@@ -31,18 +31,18 @@
     "release": "electron-builder"
   },
   "build": {
-    "appId": "com.highlite.desktop",
-    "copyright": "Copyright © 2025 HighLite",
+    "appId": "com.ryelite.desktop",
+    "copyright": "Copyright © 2025 RyeLite",
     "asar": true,
     "files": [
       "out/**/*.*"
     ],
-    "productName": "HighLite",
+    "productName": "RyeLite",
     "publish": [
       {
         "provider": "github",
-        "owner": "Highl1te",
-        "repo": "HighliteDesktop"
+        "owner": "ash-of-the-meadow",
+        "repo": "RyeliteDesktop"
       }
     ],
     "mac": {
@@ -86,17 +86,17 @@
     "allowToChangeInstallationDirectory": true,
     "installerIcon": "build/icon.ico",
     "uninstallerIcon": "build/icon.ico",
-    "uninstallDisplayName": "HighLite",
+    "uninstallDisplayName": "RyeLite",
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
-    "shortcutName": "HighLite"
+    "shortcutName": "RyeLite"
   },
   "dependencies": {
     "@babylonjs/core": "^8.28.1",
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
-    "@highlite/core": "^2.2.0",
     "@iconify/iconify": "^3.1.1",
+    "@ryelite/core": "0.1.0",
     "electron-log": "^5.4.2",
     "electron-updater": "^6.6.7",
     "idb": "^8.0.3"
@@ -113,5 +113,5 @@
     "vite": "^7.1.1",
     "vite-plugin-electron": "^0.29.0"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.10.3"
 }

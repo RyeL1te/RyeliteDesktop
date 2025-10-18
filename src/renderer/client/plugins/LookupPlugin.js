@@ -1,5 +1,5 @@
 // src/LookupPlugin.ts
-import { ActionState, ContextMenuManager, ContextMenuTypes, EntityType, Plugin } from "@highlite/core";
+import { ActionState, ContextMenuManager, ContextMenuTypes, EntityType, Plugin } from "@ryelite/core";
 var LookupPlugin = class extends Plugin {
   constructor() {
     super();

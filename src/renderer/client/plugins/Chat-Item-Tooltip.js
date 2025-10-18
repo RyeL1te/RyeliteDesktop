@@ -1,5 +1,5 @@
 // src/ChatItemTooltip.ts
-import { Plugin, SettingsTypes, UIManager } from "@highlite/core";
+import { Plugin, SettingsTypes, UIManager } from "@ryelite/core";
 var ChatItemTooltip = class extends Plugin {
   constructor() {
     super();

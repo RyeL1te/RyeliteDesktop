@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { Highlite } from '@highlite/core'
-import { Reflector } from '@highlite/core'
-import { HighliteResources } from '@highlite/core';
+import { Highlite } from '@ryelite/core'
+import { Reflector } from '@ryelite/core'
+import { HighliteResources } from '@ryelite/core';
 import '@iconify/iconify';
 import '@static/css/index.css';
 import '@static/css/overrides.css';
@@ -63,7 +63,7 @@ async function obtainGameClient() {
         !savedHooks
     ) {
         console.log(
-            '[Highlite Loader] High Spell Client Version is outdated, updating...'
+            '[Ryelite Loader] High Spell Client Version is outdated, updating...'
         );
 
         // Fetch the latest client
@@ -88,13 +88,13 @@ async function obtainGameClient() {
         await highliteResources.setItem('highSpellClient', highSpellClient);
         await highliteResources.setItem('clientLastVersion', remoteLastVersion);
         console.log(
-            '[Highlite Loader] High Spell Client Version ' +
+            '[Ryelite Loader] High Spell Client Version ' +
                 highSpellAssetJSON.data.latestClientVersion +
                 ' downloaded.'
         );
     } else {
         console.log(
-            '[Highlite Loader] High Spell Client Version is up to date.'
+            '[Ryelite Loader] High Spell Client Version is up to date.'
         );
 
         // Load the client from save db
@@ -245,7 +245,7 @@ if (await window.settings.getByName('Enable Plugins')) {
     let highlite = new Highlite();
 
     // Load and register all plugins using dynamic imports
-    console.log('[Highlite] Loading plugins...');
+    console.log('[Ryelite] Loading plugins...');
     const loadedPlugins: Array<{ class: any; name: string; }> = [];
 
     try {
@@ -264,14 +264,14 @@ if (await window.settings.getByName('Enable Plugins')) {
                         name: pluginName,
                     });
                 } else {
-                    console.error(`[Highlite] Plugin class not found in module: ${pluginName}`);
+                    console.error(`[Ryelite] Plugin class not found in module: ${pluginName}`);
                 }
             } catch (error) {
-                console.error(`[Highlite] Failed to load plugin from ${path}:`, error);
+                console.error(`[Ryelite] Failed to load plugin from ${path}:`, error);
             }
         }
     } catch (error) {
-        console.error('[Highlite] Error loading plugins:', error);
+        console.error('[Ryelite] Error loading plugins:', error);
     }
     await highlite.start();
 } else {

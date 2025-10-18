@@ -1,7 +1,7 @@
 // src/ExperienceTracker.ts
-import { Plugin } from "@highlite/core";
-import { abbreviateValue } from "@highlite/core";
-import { PanelManager } from "@highlite/core";
+import { Plugin } from "@ryelite/core";
+import { abbreviateValue } from "@ryelite/core";
+import { PanelManager } from "@ryelite/core";
 var ExperienceTracker = class extends Plugin {
   constructor() {
     super(...arguments);

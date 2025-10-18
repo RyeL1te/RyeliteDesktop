@@ -1,6 +1,6 @@
 // src/FPSLimiter.ts
-import { Plugin } from "@highlite/core";
-import { SettingsTypes } from "@highlite/core";
+import { Plugin } from "@ryelite/core";
+import { SettingsTypes } from "@ryelite/core";
 var FPSLimiter = class extends Plugin {
   constructor() {
     super();
