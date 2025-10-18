@@ -61,6 +61,7 @@ This repository! The desktop application handles:
 The core repository provides two APIs for interacting with the High Spell game code:
 - **@highlite/plugin-api** - Deprecated API - TypeScript type definitions for plugin development - Older api to support current plugins. Support is maintained, but new plugins and code should use ryelite-core.
 - **@ryelite/core** - TypeScript type definitions for plugin development - Current up-to-date api that newer code and plugins should use, unless a feature is only available in the older api.
+Both APIs support:
 - Game state monitoring and interaction APIs
 - High Spell game client integration layer
 - Plugin development framework and utilities
