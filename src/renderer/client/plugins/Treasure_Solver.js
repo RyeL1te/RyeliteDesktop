@@ -84,7 +84,7 @@ var TreasureSolver = class extends Plugin {
     this.treasureInfoContainer.className = "treasure-info-container";
     this.treasureMapInfo = document?.createElement("div");
     this.treasureMapInfo.className = "treasure-map-info";
-    const link = `https://highlite.dev/map?hide_decor=true&highliteMapPlugin=true&pos_x=${data[1] + 512}&pos_y=${data[2] + 512}&lvl=${data[3]}`;
+    const link = `https://ryelite.org/map?hide_decor=true&highliteMapPlugin=true&pos_x=${data[1] + 512}&pos_y=${data[2] + 512}&lvl=${data[3]}`;
     const mapButton = document?.createElement("button");
     mapButton.className = "map-button";
     mapButton.textContent = "Map Link";

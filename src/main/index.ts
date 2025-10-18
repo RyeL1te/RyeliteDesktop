@@ -35,7 +35,7 @@ if (!gotTheLock) {
 let consoleWindowRef: BrowserWindow | null = null;
 
 app.whenReady().then(async () => {
-    electronApp.setAppUserModelId('com.highlite.desktop');
+    electronApp.setAppUserModelId('com.ryelite.desktop');
     const updateWindow: BrowserWindow = await createUpdateWindow();
 
     consoleWindowRef = await createConsoleWindow();

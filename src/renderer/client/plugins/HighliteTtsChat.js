@@ -14,7 +14,7 @@ var TtsChat = class extends Plugin {
     this.settings.infoBox = {
       type: SettingsTypes.info,
       value: "System Voices",
-      text: "TTS Chat uses your system's available text-to-speech voices.\nIf you cannot hear anything, please check your settings. In Windows, this is under 'Speech'.\nChecking 'Recognise non-native accents' will allow you to use accents from other voice packs during Random Voices mode. You may need to restart Highlite and/or your computer for newly installed voice packs to take effect.",
+      text: "TTS Chat uses your system's available text-to-speech voices.\nIf you cannot hear anything, please check your settings. In Windows, this is under 'Speech'.\nChecking 'Recognise non-native accents' will allow you to use accents from other voice packs during Random Voices mode. You may need to restart Ryelite and/or your computer for newly installed voice packs to take effect.",
       callback: () => {
       }
     };
