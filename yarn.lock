@@ -587,6 +587,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@interactjs/types@npm:1.10.27":
+  version: 1.10.27
+  resolution: "@interactjs/types@npm:1.10.27"
+  checksum: 10c0/767afe37cd932ed248712dc0aa9c912b18af1104ec26829d655daaeef57d13c8e9e973c9f59e4be978d66fe7e86b77f58dec4688bb2e5d38b838d5a38cb27cf4
+  languageName: node
+  linkType: hard
+
 "@isaacs/balanced-match@npm:^4.0.1":
   version: 4.0.1
   resolution: "@isaacs/balanced-match@npm:4.0.1"
@@ -894,16 +901,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ryelite/core@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@ryelite/core@npm:0.1.0"
+"@ryelite/core@npm:0.1.1":
+  version: 0.1.1
+  resolution: "@ryelite/core@npm:0.1.1"
   dependencies:
     acorn: "npm:^8.15.0"
     acorn-walk: "npm:^8.3.4"
     idb: "npm:^8.0.3"
     on-change: "npm:^5.0.1"
     tsc: "npm:^2.0.4"
-  checksum: 10c0/0f91a31def92aea9518ce5c9273dc22e3117cf77d4784caa3dc32843da1db3c73d990c890f872bdc21a9a0e4a5eaa78e1b8cf1289ccea6c75fe76eefb5338a7c
+  checksum: 10c0/1720f5d30c9cfbced0d0d5f77ce25a71db4c6767f868dc23d1936f3e70320e5a3357285bd7c211188273ef554256a4409a4d8b608e2ae58f5dfc5a033dd77c8d
   languageName: node
   linkType: hard
 
@@ -2703,6 +2710,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"interactjs@npm:^1.10.27":
+  version: 1.10.27
+  resolution: "interactjs@npm:1.10.27"
+  dependencies:
+    "@interactjs/types": "npm:1.10.27"
+  checksum: 10c0/35532c636fc7cf8273999d314c9738994bfc4a1a384fd64658420055e93456aa6333a865e04b1765d39ee4e29f898854c3f3451a7a88a09141e32115cc6112e2
+  languageName: node
+  linkType: hard
+
 "ip-address@npm:^10.0.1":
   version: 10.0.1
   resolution: "ip-address@npm:10.0.1"
@@ -3784,7 +3800,7 @@ __metadata:
     "@electron-toolkit/tsconfig": "npm:^1.0.1"
     "@electron-toolkit/utils": "npm:^4.0.0"
     "@iconify/iconify": "npm:^3.1.1"
-    "@ryelite/core": "npm:0.1.0"
+    "@ryelite/core": "npm:0.1.1"
     "@types/node": "npm:^22.17.1"
     electron: "npm:^37.2.6"
     electron-builder: "npm:26.0.19"
@@ -3792,6 +3808,7 @@ __metadata:
     electron-updater: "npm:^6.6.7"
     electron-vite: "npm:^4.0.0"
     idb: "npm:^8.0.3"
+    interactjs: "npm:^1.10.27"
     prettier: "npm:^3.6.2"
     ts-simple-nameof: "npm:^1.3.3"
     typescript: "npm:^5.9.2"

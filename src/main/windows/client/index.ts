@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, shell, session } from 'electron';
 import path from 'path';
 import { format } from 'url';
 
@@ -23,6 +23,17 @@ import './modules/windowEventManagement'; // Import window event management modu
 app.commandLine.appendSwitch('disable-background-timer-throttling');
 app.commandLine.appendSwitch('disable-renderer-backgrounding');
 app.commandLine.appendSwitch('disable-backgrounding-occluded-windows');
+
+// Reroute any calls to the old website (highlite.dev) to the new one (ryelite.org).
+//  For use with legacy plugins.
+app.on("ready", () => {
+    const filter = { urls: ["*://highlite.dev/*"] };
+  
+    session.defaultSession.webRequest.onBeforeRequest(filter, (details, callback) => {
+      const newUrl = details.url.replace("highlite.dev", "ryelite.org");
+      callback({ redirectURL: newUrl });
+    });
+  });
 
 export async function createClientWindow() {
     const mainWindow = new BrowserWindow({

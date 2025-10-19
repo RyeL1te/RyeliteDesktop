@@ -1,7 +1,7 @@
 {
   "name": "ryelite",
   "productName": "RyeLite",
-  "version": "3.0.0",
+  "version": "0.1.0",
   "description": "A RuneLite-esque Client for the game High Spell",
   "homepage": "https://github.com/ash-of-the-meadow/rl-core#readme",
   "engines": {
@@ -96,10 +96,11 @@
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
     "@iconify/iconify": "^3.1.1",
-    "@ryelite/core": "0.1.0",
+    "@ryelite/core": "0.1.1",
     "electron-log": "^5.4.2",
     "electron-updater": "^6.6.7",
-    "idb": "^8.0.3"
+    "idb": "^8.0.3",
+    "interactjs": "^1.10.27"
   },
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^1.0.1",
