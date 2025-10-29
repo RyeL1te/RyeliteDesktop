@@ -26,7 +26,6 @@ jobs:
       - name: Get version from package.json
         id: get_version
         run: |
-          # This command reads package.json, finds the "version", and saves it
           echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
   build:
@@ -129,7 +128,7 @@ jobs:
         if: ${{ !env.ACT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/RyeLite-Setup-${{ needs.get_version.outputs.version }}.exe
+          asset_path: ./dist/RyeLite Setup ${{ needs.get_version.outputs.version }}.exe
           asset_name: RyeLite-Setup-${{ needs.get_version.outputs.version }}.exe
           asset_content_type: application/octet-stream
         env:
