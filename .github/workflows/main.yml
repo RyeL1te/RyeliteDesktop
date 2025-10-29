@@ -139,7 +139,7 @@ jobs:
         if: ${{ !env.ACT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/build-macos-latest/RyeLite-${{ needs.get_version.outputs.version }}.dmg
+          asset_path: ./dist/build-macos-latest/RyeLite-${{ needs.get_version.outputs.version }}-universal.dmg
           asset_name: RyeLite-${{ needs.get_version.outputs.version }}.dmg
           asset_content_type: application/octet-stream
         env:
