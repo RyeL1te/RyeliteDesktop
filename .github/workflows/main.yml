@@ -128,7 +128,7 @@ jobs:
         if: ${{ !env.ACT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/RyeLite Setup ${{ needs.get_version.outputs.version }}.exe
+          asset_path: ./dist/build-windows-latest/RyeLite Setup ${{ needs.get_version.outputs.version }}.exe
           asset_name: RyeLite-Setup-${{ needs.get_version.outputs.version }}.exe
           asset_content_type: application/octet-stream
         env:
@@ -139,7 +139,7 @@ jobs:
         if: ${{ !env.ACT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/RyeLite-${{ needs.get_version.outputs.version }}.dmg
+          asset_path: ./dist/build-macos-latest/RyeLite-${{ needs.get_version.outputs.version }}.dmg
           asset_name: RyeLite-${{ needs.get_version.outputs.version }}.dmg
           asset_content_type: application/octet-stream
         env:
@@ -150,7 +150,7 @@ jobs:
         if: ${{ !env.ACT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/RyeLite-${{ needs.get_version.outputs.version }}.AppImage
+          asset_path: ./dist/build-ubuntu-latest/RyeLite-${{ needs.get_version.outputs.version }}.AppImage
           asset_name: RyeLite-${{ needs.get_version.outputs.version }}.AppImage
           asset_content_type: application/octet-stream
         env:
