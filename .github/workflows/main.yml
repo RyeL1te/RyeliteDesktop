@@ -109,7 +109,8 @@ jobs:
             TEST_TAG="v${VERSION}-test.${{ github.run_id }}"
             echo "TAG_NAME=${TEST_TAG}" >> $GITHUB_OUTPUT
             echo "RELEASE_NAME=Test Build ${TEST_TAG}" >> $GITHUB_OUTPUT
-            echo "PRERELEASE=true" >> $GITHUB_OUTPUT
+            echo "PRERELEASE=false" >> $GITHUB_OUTPUT
+            echo "DRAFT=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Create GitHub Release
@@ -119,7 +120,7 @@ jobs:
         with:
           tag_name: ${{ steps.release_props.outputs.TAG_NAME }}
           release_name: ${{ steps.release_props.outputs.RELEASE_NAME }}
-          draft: false
+          draft: ${{ steps.release_props.outputs.DRAFT }}
           prerelease: ${{ steps.release_props.outputs.PRERELEASE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
