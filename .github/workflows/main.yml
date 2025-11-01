@@ -56,7 +56,7 @@ jobs:
         run: npm run build
       
       - name: Package Application
-        run: npm run release -- --publish never
+        run: npm run release
         if: ${{ !env.ACT }}
       
       - name: Upload Artifact
