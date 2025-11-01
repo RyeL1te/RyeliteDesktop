@@ -74,7 +74,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref_type == 'tag' || github.ref_name == 'staging' || github.event_name == 'workflow_dispatch'
 
-    steps:
+    steps:      
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+        
       - name: Download all artifacts
         if: ${{ !env.ACT }}
         uses: actions/download-artifact@v4
