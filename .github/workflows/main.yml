@@ -121,38 +121,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Windows Asset
-        uses: actions/upload-release-asset@v1
+      - name: Upload All Release Assets (CLI)
         if: ${{ !env.ACT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/build-windows-latest/RyeLite Setup ${{ needs.get_version.outputs.version }}.exe
-          asset_name: RyeLite-Setup-${{ needs.get_version.outputs.version }}.exe
-          asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload macOS Asset
-        uses: actions/upload-release-asset@v1
-        if: ${{ !env.ACT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/build-macos-latest/RyeLite-${{ needs.get_version.outputs.version }}-universal.dmg
-          asset_name: RyeLite-${{ needs.get_version.outputs.version }}.dmg
-          asset_content_type: application/octet-stream
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Linux Asset
-        uses: actions/upload-release-asset@v1
-        if: ${{ !env.ACT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/build-ubuntu-latest/RyeLite-${{ needs.get_version.outputs.version }}.AppImage
-          asset_name: RyeLite-${{ needs.get_version.outputs.version }}.AppImage
-          asset_content_type: application/octet-stream
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ steps.create_release.outputs.tag_name }} ./dist/**/*
 
       - name: Output Expected Filenames for ACT
         if: ${{ env.ACT }}
