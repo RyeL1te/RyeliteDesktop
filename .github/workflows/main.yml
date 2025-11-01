@@ -77,7 +77,7 @@ jobs:
     steps:      
       - name: Check out Git repository
         uses: actions/checkout@v4
-        
+
       - name: Download all artifacts
         if: ${{ !env.ACT }}
         uses: actions/download-artifact@v4
@@ -129,7 +129,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ steps.create_release.outputs.tag_name }} ./dist/**/*
+          gh release upload ${{ steps.release_props.outputs.TAG_NAME }} ./dist/**/*
 
       - name: Output Expected Filenames for ACT
         if: ${{ env.ACT }}
