@@ -64,10 +64,7 @@ jobs:
         if: ${{ !env.ACT }}
         with:
           name: build-${{ matrix.os }}
-          path: |
-            dist/*${{ needs.get_version.outputs.version }}*.exe
-            dist/*${{ needs.get_version.outputs.version }}*.dmg
-            dist/*${{ needs.get_version.outputs.version }}*.AppImage
+          path: dist/**/*
 
   release:
     needs: [build, get_version]
