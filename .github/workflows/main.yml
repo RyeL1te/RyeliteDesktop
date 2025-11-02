@@ -56,10 +56,10 @@ jobs:
         run: npm run build
       
       - name: Package Application
-        run: npm run release
+        run: npm run release -- --publish never
         if: ${{ !env.ACT }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -67,16 +67,21 @@ jobs:
         with:
           name: build-${{ matrix.os }}
           path: |
-            dist/*${{ needs.get_version.outputs.version }}*.exe
-            dist/*${{ needs.get_version.outputs.version }}*.dmg
-            dist/*${{ needs.get_version.outputs.version }}*.AppImage
+            dist/*.dmg
+            dist/*.AppImage
+            dist/*.exe
+            dist/*.yml
+            dist/*.blockmap
 
   release:
     needs: [build, get_version]
     runs-on: ubuntu-latest
     if: github.ref_type == 'tag' || github.ref_name == 'staging' || github.event_name == 'workflow_dispatch'
 
-    steps:
+    steps:      
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
       - name: Download all artifacts
         if: ${{ !env.ACT }}
         uses: actions/download-artifact@v4
@@ -108,7 +113,8 @@ jobs:
             TEST_TAG="v${VERSION}-test.${{ github.run_id }}"
             echo "TAG_NAME=${TEST_TAG}" >> $GITHUB_OUTPUT
             echo "RELEASE_NAME=Test Build ${TEST_TAG}" >> $GITHUB_OUTPUT
-            echo "PRERELEASE=true" >> $GITHUB_OUTPUT
+            echo "PRERELEASE=false" >> $GITHUB_OUTPUT
+            echo "DRAFT=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Create GitHub Release
@@ -118,43 +124,22 @@ jobs:
         with:
           tag_name: ${{ steps.release_props.outputs.TAG_NAME }}
           release_name: ${{ steps.release_props.outputs.RELEASE_NAME }}
-          draft: false
+          draft: ${{ steps.release_props.outputs.DRAFT }}
           prerelease: ${{ steps.release_props.outputs.PRERELEASE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Windows Asset
-        uses: actions/upload-release-asset@v1
+      - name: Upload All Release Assets (CLI)
         if: ${{ !env.ACT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/build-windows-latest/RyeLite Setup ${{ needs.get_version.outputs.version }}.exe
-          asset_name: RyeLite-Setup-${{ needs.get_version.outputs.version }}.exe
-          asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload macOS Asset
-        uses: actions/upload-release-asset@v1
-        if: ${{ !env.ACT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/build-macos-latest/RyeLite-${{ needs.get_version.outputs.version }}-universal.dmg
-          asset_name: RyeLite-${{ needs.get_version.outputs.version }}.dmg
-          asset_content_type: application/octet-stream
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Linux Asset
-        uses: actions/upload-release-asset@v1
-        if: ${{ !env.ACT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/build-ubuntu-latest/RyeLite-${{ needs.get_version.outputs.version }}.AppImage
-          asset_name: RyeLite-${{ needs.get_version.outputs.version }}.AppImage
-          asset_content_type: application/octet-stream
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ steps.release_props.outputs.TAG_NAME }} \
+            ./dist/**/*.dmg \
+            ./dist/**/*.AppImage \
+            ./dist/**/*Setup*.exe \
+            ./dist/**/latest*.yml \
+            ./dist/**/*.blockmap
 
       - name: Output Expected Filenames for ACT
         if: ${{ env.ACT }}
