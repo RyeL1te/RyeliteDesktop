@@ -66,7 +66,12 @@ jobs:
         if: ${{ !env.ACT }}
         with:
           name: build-${{ matrix.os }}
-          path: dist/**/*
+          path: |
+            dist/**/*.dmg
+            dist/**/*.AppImage
+            dist/**/*.exe
+            dist/**/*.yml
+            dist/**/*.blockmap
 
   release:
     needs: [build, get_version]
@@ -129,7 +134,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          find ./dist -type f -exec gh release upload ${{ steps.release_props.outputs.TAG_NAME }} {} +
+          gh release upload ${{ steps.release_props.outputs.TAG_NAME }} \
+            ./dist/**/*.dmg \
+            ./dist/**/*.AppImage \
+            ./dist/**/*.exe \
+            ./dist/**/*.yml \
+            ./dist/**/*.blockmap
 
       - name: Output Expected Filenames for ACT
         if: ${{ env.ACT }}
