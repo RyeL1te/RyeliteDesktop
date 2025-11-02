@@ -67,11 +67,11 @@ jobs:
         with:
           name: build-${{ matrix.os }}
           path: |
-            dist/**/*.dmg
-            dist/**/*.AppImage
-            dist/**/*.exe
-            dist/**/*.yml
-            dist/**/*.blockmap
+            dist/*.dmg
+            dist/*.AppImage
+            dist/*.exe
+            dist/*.yml
+            dist/*.blockmap
 
   release:
     needs: [build, get_version]
@@ -137,8 +137,8 @@ jobs:
           gh release upload ${{ steps.release_props.outputs.TAG_NAME }} \
             ./dist/**/*.dmg \
             ./dist/**/*.AppImage \
-            ./dist/**/*.exe \
-            ./dist/**/*.yml \
+            ./dist/**/*Setup*.exe \
+            ./dist/**/latest*.yml \
             ./dist/**/*.blockmap
 
       - name: Output Expected Filenames for ACT
