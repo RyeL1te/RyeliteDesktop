@@ -56,8 +56,10 @@ jobs:
         run: npm run build
       
       - name: Package Application
-        run: npm run release
+        run: npm run release -- --publish never
         if: ${{ !env.ACT }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
