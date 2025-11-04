@@ -33,15 +33,24 @@ jobs:
         run: |
           BASE_VERSION=$(node -p "require('./package.json').version")
           
-          # Default to draft (manual workflow_dispatch)
-          DRAFT="true"
-          PRERELEASE="false"
-          TAG_NAME="v${BASE_VERSION}-test.${{ github.run_id }}"
-          RELEASE_NAME="Test Build ${TAG_NAME}"
-          FULL_VERSION="${BASE_VERSION}-test.${{ github.run_id }}"
+          # Manual staging run
+          if [[ "${{ github.event_name }}" == 'workflow_dispatch' && "${{ github.ref_name }}" == 'staging' ]]; then
+            DRAFT="false"
+            PRERELEASE="true"
+            TAG_NAME="v${BASE_VERSION}-beta.${{ github.run_id }}"
+            RELEASE_NAME="Staging Build ${TAG_NAME}"
+            FULL_VERSION="${BASE_VERSION}-beta.${{ github.run_id }}"
+
+          # Manual branch run
+          elif [[ "${{ github.event_name }}" == 'workflow_dispatch' && "${{ github.ref_name }}" != 'staging' && "${{ github.ref_name }}" != 'main' ]]; then
+            DRAFT="true"
+            PRERELEASE="false"
+            TAG_NAME="v${BASE_VERSION}-test.${{ github.run_id }}"
+            RELEASE_NAME="Test Build ${TAG_NAME}"
+            FULL_VERSION="${BASE_VERSION}-test.${{ github.run_id }}"
 
           # Staging branch
-          if [[ "${{ github.ref_name }}" == 'staging' ]]; then
+          elif [[ "${{ github.ref_name }}" == 'staging' ]]; then
             DRAFT="false"
             PRERELEASE="true"
             TAG_NAME="v${BASE_VERSION}-beta.${{ github.run_number }}"
