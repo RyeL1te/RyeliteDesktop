@@ -34,7 +34,7 @@ jobs:
           BASE_VERSION=$(node -p "require('./package.json').version")
           
           # Manual staging run
-          if [[ "${{ github.event_name == 'workflow_dispatch' }}" && "${{ github.ref_name == 'staging' }}" ]]; then
+          if [[ "${{ github.event_name }}" == 'workflow_dispatch' && "${{ github.ref_name }}" == 'staging' ]]; then
             DRAFT="false"
             PRERELEASE="true"
             TAG_NAME="v${BASE_VERSION}-beta.${{ github.run_id }}"
