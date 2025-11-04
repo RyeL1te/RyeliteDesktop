@@ -42,7 +42,7 @@ jobs:
             FULL_VERSION="${BASE_VERSION}-beta.${{ github.run_id }}"
 
           # Manual branch run
-          if [[ "${{ github.event_name }}" == 'workflow_dispatch' && "${{ github.ref_name }}" != 'staging' && "${{ github.ref_name }}" != 'main' ]]; then
+          elif [[ "${{ github.event_name }}" == 'workflow_dispatch' && "${{ github.ref_name }}" != 'staging' && "${{ github.ref_name }}" != 'main' ]]; then
             DRAFT="true"
             PRERELEASE="false"
             TAG_NAME="v${BASE_VERSION}-test.${{ github.run_id }}"
@@ -50,7 +50,7 @@ jobs:
             FULL_VERSION="${BASE_VERSION}-test.${{ github.run_id }}"
 
           # Staging branch
-          if [[ "${{ github.ref_name }}" == 'staging' ]]; then
+          elif [[ "${{ github.ref_name }}" == 'staging' ]]; then
             DRAFT="false"
             PRERELEASE="true"
             TAG_NAME="v${BASE_VERSION}-beta.${{ github.run_number }}"
