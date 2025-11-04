@@ -134,10 +134,10 @@ jobs:
         if: ${{ !env.ACT }}
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ steps.get_version.outputs.TAG_NAME }}
-          release_name: ${{ steps.get_version.outputs.RELEASE_NAME }}
-          draft: ${{ steps.get_version.outputs.DRAFT }}
-          prerelease: ${{ steps.get_version.outputs.PRERELEASE }}
+          tag_name: ${{ needs.get_version.outputs.tag_name }}
+          release_name: ${{ needs.get_version.outputs.release_name }}
+          draft: ${{ needs.get_version.outputs.draft }}
+          prerelease: ${{ needs.get_version.outputs.prerelease }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -146,7 +146,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{ steps.release_props.outputs.TAG_NAME }} \
+          gh release upload ${{ needs.get_version.outputs.tag_name }} \
             ./dist/**/*.dmg \
             ./dist/**/*.AppImage \
             ./dist/**/*Setup*.exe \
@@ -157,12 +157,12 @@ jobs:
         if: ${{ env.ACT }}
         run: |
           echo "--- ACT Local Test Output ---"
-          echo "Version: ${{ needs.get_version.outputs.FULL_VERSION }}"
-          echo "Calculated Tag Name: ${{ steps.get_version.outputs.TAG_NAME }}"
-          echo "Calculated Release Name: ${{ steps.get_version.outputs.RELEASE_NAME }}"
-          echo "Calculated Prerelease Status: ${{ steps.get_version.outputs.PRERELEASE }}"
+          echo "Version: ${{ needs.get_version.outputs.full_version }}"
+          echo "Calculated Tag Name: ${{ needs.get_version.outputs.tag_name }}"
+          echo "Calculated Release Name: ${{ needs.get_version.outputs.release_name }}"
+          echo "Calculated Prerelease Status: ${{ needs.get_version.outputs.prerelease }}"
           echo "--- Expected Asset Names ---"
-          echo "Windows: RyeLite-Setup-${{ needs.get_version.outputs.FULL_VERSION }}.exe"
-          echo "macOS: RyeLite-${{ needs.get_version.outputs.FULL_VERSION }}.dmg"
-          echo "Linux: RyeLite-${{ needs.get_version.outputs.FULL_VERSION }}.AppImage"
+          echo "Windows: RyeLite-Setup-${{ needs.get_version.outputs.full_version }}.exe"
+          echo "macOS: RyeLite-${{ needs.get_version.outputs.full_version }}.dmg"
+          echo "Linux: RyeLite-${{ needs.get_version.outputs.full_version }}.AppImage"
           echo "--- NOTE: Actual file paths depend on local build output in 'dist/' ---"
