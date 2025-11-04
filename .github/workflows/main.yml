@@ -20,6 +20,7 @@ jobs:
       release_name: ${{ steps.version.outputs.release_name }}
       prerelease: ${{ steps.version.outputs.prerelease }}
       draft: ${{ steps.version.outputs.draft }}
+      base_version: ${{ steps.version.outputs.base_version }}
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
