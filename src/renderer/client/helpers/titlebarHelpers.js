@@ -52,7 +52,8 @@ console.warn = function (...args) {
     );
     if (warningIndicator && warningIcon) {
         // Only set warning class if there's no error class (errors take precedence)
-        if (!warningIcon.classList.contains('error')) warningIcon.classList.add('warning');
+        if (!warningIcon.classList.contains('error'))
+            warningIcon.classList.add('warning');
 
         warningIndicator.style.display = 'flex';
     }
@@ -89,7 +90,6 @@ if (screenshotButton) {
         if (!res.ok) console.error('Screenshot failed:', res.error);
     });
 }
-
 
 export function setTitle(title) {
     document.title = title;

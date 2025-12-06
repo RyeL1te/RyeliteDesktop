@@ -38,7 +38,6 @@ async function configureAutoUpdater() {
     return Promise.resolve();
 }
 
-
 export async function createUpdateWindow() {
     await configureAutoUpdater();
     const updateWindow = new BrowserWindow({

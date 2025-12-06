@@ -59,8 +59,14 @@ app.whenReady().then(async () => {
     app.on('browser-window-created', (_event, win) => {
         if (win !== consoleWindowRef) {
             win.on('closed', () => {
-                const others = BrowserWindow.getAllWindows().filter(w => w !== consoleWindowRef);
-                if (others.length === 0 && consoleWindowRef && !consoleWindowRef.isDestroyed()) {
+                const others = BrowserWindow.getAllWindows().filter(
+                    w => w !== consoleWindowRef
+                );
+                if (
+                    others.length === 0 &&
+                    consoleWindowRef &&
+                    !consoleWindowRef.isDestroyed()
+                ) {
                     consoleWindowRef.close();
                     consoleWindowRef = null;
                 }

@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import { Highlite } from '@ryelite/core'
-import { Reflector } from '@ryelite/core'
+import { Highlite } from '@ryelite/core';
+import { Reflector } from '@ryelite/core';
 import { HighliteResources } from '@ryelite/core';
 import '@iconify/iconify';
 import '@static/css/index.css';
@@ -34,10 +34,13 @@ async function obtainGameClient() {
     await highliteResources.init();
 
     // Check if clientLastVersion is set
-    const clientLastVersion = await highliteResources.getItem('clientLastVersion');
+    const clientLastVersion =
+        await highliteResources.getItem('clientLastVersion');
 
     // Get Asset JSON to determine latest version
-    const highSpellAssetJSON = await fetch(highspellAssetsURL).then(r => r.json());
+    const highSpellAssetJSON = await fetch(highspellAssetsURL).then(r =>
+        r.json()
+    );
     const remoteLastVersion = highSpellAssetJSON.data.latestClientVersion;
 
     // Load the stored hooks
@@ -45,7 +48,6 @@ async function obtainGameClient() {
 
     // Fetch the latest client
     async function fetchLatestClient() {
-
         // Define the highspell url
         const highSpellClientURL = `https://highspell.com/js/client/client.${highSpellAssetJSON.data.latestClientVersion}.js`;
 
@@ -53,10 +55,12 @@ async function obtainGameClient() {
         console.log(highSpellClientURL);
 
         // Return the new client code
-        return await fetch(highSpellClientURL + '?time=' + Date.now()).then(r => r.text());
+        return await fetch(highSpellClientURL + '?time=' + Date.now()).then(r =>
+            r.text()
+        );
     }
 
-    let highSpellClient : string | null = null;
+    let highSpellClient: string | null = null;
     if (
         clientLastVersion == undefined ||
         clientLastVersion < remoteLastVersion ||
@@ -104,8 +108,7 @@ async function obtainGameClient() {
         await Reflector.loadHooksFromDB();
 
         // In the background we still bind the latest hook code for dev testing purposes (e.g finding new hooks in a script)
-        setTimeout(async() => {
-
+        setTimeout(async () => {
             // Reflect the game hooks
             await Reflector.loadHooksFromSource(highSpellClient || '');
         }, 200);
@@ -246,14 +249,18 @@ if (await window.settings.getByName('Enable Plugins')) {
 
     // Load and register all plugins using dynamic imports
     console.log('[Ryelite] Loading plugins...');
-    const loadedPlugins: Array<{ class: any; name: string; }> = [];
+    const loadedPlugins: Array<{ class: any; name: string }> = [];
 
     try {
-        const pluginModules = import.meta.glob('./plugins/*.js', { eager: true });
+        const pluginModules = import.meta.glob('./plugins/*.js', {
+            eager: true,
+        });
 
         for (const [path, moduleLoader] of Object.entries(pluginModules)) {
             try {
-                const pluginName = path.split('/').pop()?.replace('.js', '') || 'UnknownPlugin';
+                const pluginName =
+                    path.split('/').pop()?.replace('.js', '') ||
+                    'UnknownPlugin';
                 // Dynamically import the plugin module
                 const PluginClass = (moduleLoader as any).default;
 
@@ -264,10 +271,15 @@ if (await window.settings.getByName('Enable Plugins')) {
                         name: pluginName,
                     });
                 } else {
-                    console.error(`[Ryelite] Plugin class not found in module: ${pluginName}`);
+                    console.error(
+                        `[Ryelite] Plugin class not found in module: ${pluginName}`
+                    );
                 }
             } catch (error) {
-                console.error(`[Ryelite] Failed to load plugin from ${path}:`, error);
+                console.error(
+                    `[Ryelite] Failed to load plugin from ${path}:`,
+                    error
+                );
             }
         }
     } catch (error) {
@@ -286,4 +298,3 @@ document.dispatchEvent(
         cancelable: true,
     })
 );
-

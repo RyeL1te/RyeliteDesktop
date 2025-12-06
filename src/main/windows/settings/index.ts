@@ -1,7 +1,9 @@
 import { BrowserWindow, app } from 'electron';
 import path from 'path';
 
-export async function createSettingsModal(parent : BrowserWindow) : Promise<BrowserWindow> {
+export async function createSettingsModal(
+    parent: BrowserWindow
+): Promise<BrowserWindow> {
     const modal = new BrowserWindow({
         parent,
         modal: true,
@@ -10,11 +12,10 @@ export async function createSettingsModal(parent : BrowserWindow) : Promise<Brow
             preload: path.join(__dirname, '../preload/index.js'),
             sandbox: false, // Disable sandboxing for compatibility with some libraries
             webSecurity: app.isPackaged, // Disable web security only in development for CORS
-            
         },
         icon: path.join(__dirname, 'icons/icon.png'),
         titleBarStyle: 'hidden',
-        resizable: false
+        resizable: false,
     });
 
     modal.setMenu(null);

@@ -4,7 +4,6 @@ import { setupWindowControls } from '../helper/';
 
 setupWindowControls();
 
-
 // Render settings UI from schema into #settings-content
 function createFieldEl(sectionKey: string, field: any): HTMLElement {
     const fieldWrapper = document.createElement('div');
@@ -37,7 +36,8 @@ function createFieldEl(sectionKey: string, field: any): HTMLElement {
         case 'number': {
             const input = document.createElement('input');
             input.type = 'number';
-            if (typeof settingVal === 'number') input.value = String(settingVal);
+            if (typeof settingVal === 'number')
+                input.value = String(settingVal);
             input.id = nameAttr;
             input.className = 'setting-input setting-number';
             control = input;
@@ -93,15 +93,21 @@ function createFieldEl(sectionKey: string, field: any): HTMLElement {
         chooseBtn.className = 'btn btn-secondary';
         chooseBtn.addEventListener('click', async () => {
             try {
-                const currentVal = (control as HTMLInputElement).value || (typeof settingVal === 'string' ? settingVal : undefined);
+                const currentVal =
+                    (control as HTMLInputElement).value ||
+                    (typeof settingVal === 'string' ? settingVal : undefined);
                 const selected = await window.settings.selectDirectory({
                     title: `Select ${field.label}`,
                     defaultPath: currentVal,
                 });
                 if (selected) {
                     (control as HTMLInputElement).value = selected;
-                    (control as HTMLInputElement).dispatchEvent(new Event('input', { bubbles: true }));
-                    (control as HTMLInputElement).dispatchEvent(new Event('change', { bubbles: true }));
+                    (control as HTMLInputElement).dispatchEvent(
+                        new Event('input', { bubbles: true })
+                    );
+                    (control as HTMLInputElement).dispatchEvent(
+                        new Event('change', { bubbles: true })
+                    );
                 }
             } catch (e) {
                 console.error('Directory selection failed', e);
@@ -122,7 +128,10 @@ function createFieldEl(sectionKey: string, field: any): HTMLElement {
                 value = (control as HTMLSelectElement).value;
             } else {
                 const v = (control as HTMLInputElement).value;
-                value = (control as HTMLInputElement).type === 'number' ? Number(v) : v;
+                value =
+                    (control as HTMLInputElement).type === 'number'
+                        ? Number(v)
+                        : v;
             }
             badge.textContent = 'Checking…';
             badge.classList.remove('ok', 'bad');
@@ -167,8 +176,10 @@ async function renderSettings() {
     document.body.appendChild(actionBar);
 
     const getVal = (el: HTMLElement): string | number | boolean => {
-        if ((el as HTMLInputElement).type === 'checkbox') return (el as HTMLInputElement).checked;
-        if (el.tagName.toLowerCase() === 'select') return (el as HTMLSelectElement).value;
+        if ((el as HTMLInputElement).type === 'checkbox')
+            return (el as HTMLInputElement).checked;
+        if (el.tagName.toLowerCase() === 'select')
+            return (el as HTMLSelectElement).value;
         const inp = el as HTMLInputElement;
 
         return inp.type === 'number' ? Number(inp.value) : inp.value;
@@ -182,15 +193,20 @@ async function renderSettings() {
             const inp = el as HTMLInputElement;
             inp.value = v == null ? '' : String(v);
         }
-        (el as HTMLInputElement).dispatchEvent(new Event('input', { bubbles: true }));
-        (el as HTMLInputElement).dispatchEvent(new Event('change', { bubbles: true }));
+        (el as HTMLInputElement).dispatchEvent(
+            new Event('input', { bubbles: true })
+        );
+        (el as HTMLInputElement).dispatchEvent(
+            new Event('change', { bubbles: true })
+        );
     };
 
     const snapshot = new Map<string, string | number | boolean>();
     const controls: HTMLElement[] = [];
     const allSettings = await window.settings.getAll();
     const { settingsSchema } = await import('../../preload/settings');
-    Object.entries(settingsSchema.settings).forEach(([sectionKey, section]: any) => {
+    Object.entries(settingsSchema.settings).forEach(
+        ([sectionKey, section]: any) => {
             // Patch values from loaded settings
             (section.fields || []).forEach((field: any) => {
                 if (allSettings?.[sectionKey]?.[field.label] !== undefined) {
@@ -212,7 +228,9 @@ async function renderSettings() {
             (section.fields || []).forEach((field: any) => {
                 const fieldEl = createFieldEl(sectionKey, field);
                 // collect controls and seed snapshot
-                const control = fieldEl.querySelector('.setting-input') as HTMLElement | null;
+                const control = fieldEl.querySelector(
+                    '.setting-input'
+                ) as HTMLElement | null;
 
                 if (control) {
                     const key = `${sectionKey}:${field.label}`;
@@ -241,12 +259,13 @@ async function renderSettings() {
             const base = snapshot.get(key);
 
             // normalize numbers that are NaN vs empty
-            if (typeof base === 'number' 
-                && typeof cur === 'number' 
-                && isNaN(base) 
-                && isNaN(cur)
-            ) return false;
-
+            if (
+                typeof base === 'number' &&
+                typeof cur === 'number' &&
+                isNaN(base) &&
+                isNaN(cur)
+            )
+                return false;
 
             return cur !== base;
         });

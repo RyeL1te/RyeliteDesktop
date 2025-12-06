@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
 /* 
     The idea behind this script is to provide the ability to remember usernames and passwords for various different user accounts.
 

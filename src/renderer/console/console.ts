@@ -34,7 +34,11 @@ class ConsoleManager {
             if (data.level === 'debug') {
                 return; // Skip debug messages
             }
-            this.addMessage(data.level, data.text, `${data.source} @ ${data.lineNumber}`);
+            this.addMessage(
+                data.level,
+                data.text,
+                `${data.source} @ ${data.lineNumber}`
+            );
         });
     }
 
@@ -49,12 +53,16 @@ class ConsoleManager {
         });
 
         // Clear button
-        document.getElementById('clearConsole')?.addEventListener('click', () => { this.clearMessages(); });
+        document
+            .getElementById('clearConsole')
+            ?.addEventListener('click', () => {
+                this.clearMessages();
+            });
     }
 
     formatMessage(args: any[]): string {
-        return args.map(arg => {
-
+        return args
+            .map(arg => {
                 if (typeof arg === 'object') {
                     try {
                         return JSON.stringify(arg, null, 2);
@@ -68,7 +76,12 @@ class ConsoleManager {
             .join(' ');
     }
 
-    addMessage(type: string, message: string, source: string, timestamp: Date = new Date()): void {
+    addMessage(
+        type: string,
+        message: string,
+        source: string,
+        timestamp: Date = new Date()
+    ): void {
         const messageObj = {
             id: Date.now() + Math.random(),
             type,
@@ -80,7 +93,8 @@ class ConsoleManager {
         this.messages.unshift(messageObj); // Add to beginning for newest first
 
         // Keep only last 1000 messages
-        if (this.messages.length > 1000) this.messages = this.messages.slice(0, 1000);
+        if (this.messages.length > 1000)
+            this.messages = this.messages.slice(0, 1000);
 
         this.storeMessages();
         this.renderMessages();
@@ -91,7 +105,10 @@ class ConsoleManager {
 
         // Update active filter button
         document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.toggle('active', (btn as HTMLElement).dataset.type === type);
+            btn.classList.toggle(
+                'active',
+                (btn as HTMLElement).dataset.type === type
+            );
         });
 
         this.renderMessages();
@@ -104,11 +121,16 @@ class ConsoleManager {
     }
 
     renderMessages(): void {
-        const content = document.getElementById('console-content') as HTMLElement;
+        const content = document.getElementById(
+            'console-content'
+        ) as HTMLElement;
         const emptyState = document.getElementById('emptyState');
 
         let filteredMessages = this.messages;
-        if (this.currentFilter !== 'all') filteredMessages = this.messages.filter(msg => msg.type === this.currentFilter);
+        if (this.currentFilter !== 'all')
+            filteredMessages = this.messages.filter(
+                msg => msg.type === this.currentFilter
+            );
 
         if (filteredMessages.length === 0) {
             (emptyState?.style as any).display = 'block';
@@ -150,7 +172,9 @@ class ConsoleManager {
 
         // Add click handler to copy message
         row.addEventListener('click', () => {
-            navigator.clipboard.writeText(`[${timestamp}] ${message.type.toUpperCase()}: ${message.message} (${message.source})`);
+            navigator.clipboard.writeText(
+                `[${timestamp}] ${message.type.toUpperCase()}: ${message.message} (${message.source})`
+            );
             this.showToast('Message copied to clipboard');
         });
 
@@ -201,7 +225,10 @@ class ConsoleManager {
 
     storeMessages() {
         try {
-            localStorage.setItem('highlite-console-messages',JSON.stringify(this.messages.slice(0, 100)));
+            localStorage.setItem(
+                'highlite-console-messages',
+                JSON.stringify(this.messages.slice(0, 100))
+            );
         } catch (e) {
             console.warn('Failed to store console messages:', e);
         }

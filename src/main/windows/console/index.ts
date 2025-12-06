@@ -24,20 +24,23 @@ export async function createConsoleWindow() {
             preload: path.join(__dirname, '../preload/index.js'),
             sandbox: false, // Disable sandboxing for compatibility with some libraries
             webSecurity: app.isPackaged, // Disable web security only in development for CORS
-            
         },
         icon: path.join(__dirname, 'icons/icon.png'),
         titleBarStyle: 'hidden',
         show: false, // Start hidden, show when ready
     });
 
-   if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
-       consoleWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/console.html`);
-   } else {
-       consoleWindow.loadFile(path.join(__dirname, '../renderer/console.html'));
-   }
+    if (!app.isPackaged && process.env['ELECTRON_RENDERER_URL']) {
+        consoleWindow.loadURL(
+            `${process.env['ELECTRON_RENDERER_URL']}/console.html`
+        );
+    } else {
+        consoleWindow.loadFile(
+            path.join(__dirname, '../renderer/console.html')
+        );
+    }
 
-   consoleWindow.setMenu(null);
+    consoleWindow.setMenu(null);
     ipcMain.on('show-console', () => {
         if (consoleWindow) {
             if (consoleWindow.isMinimized()) {
@@ -49,7 +52,7 @@ export async function createConsoleWindow() {
         }
     });
 
-    ipcMain.on('add-console-message', (data) => {
+    ipcMain.on('add-console-message', data => {
         if (consoleWindow) {
             consoleWindow.webContents.send('add-console-message', data);
         } else {

@@ -18,10 +18,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 // TODO: Centralize settings syncing and ensurement here to clean up access requirements across main process
 
-
-import { settingsSchema } from "../../../preload/settings";
-import { createSettingsModal } from "../../windows/settings/index";
-import { BrowserWindow, ipcMain, dialog, app } from "electron";
+import { settingsSchema } from '../../../preload/settings';
+import { createSettingsModal } from '../../windows/settings/index';
+import { BrowserWindow, ipcMain, dialog, app } from 'electron';
 import fs from 'fs';
 import path from 'path';
 
@@ -38,9 +37,16 @@ class SettingsService {
         try {
             const pictures = app.getPath('pictures');
             // Set default for Screenshot Directory dynamically
-            const screenshotsSection = (settingsSchema.settings as any)?.['Screenshots'];
-            if (screenshotsSection && Array.isArray(screenshotsSection.fields)) {
-                const dirField = screenshotsSection.fields.find((f: any) => f && f.label === 'Screenshot Directory');
+            const screenshotsSection = (settingsSchema.settings as any)?.[
+                'Screenshots'
+            ];
+            if (
+                screenshotsSection &&
+                Array.isArray(screenshotsSection.fields)
+            ) {
+                const dirField = screenshotsSection.fields.find(
+                    (f: any) => f && f.label === 'Screenshot Directory'
+                );
                 if (dirField) {
                     dirField.default = pictures;
                 }
@@ -73,28 +79,42 @@ class SettingsService {
 
     // Persist the current in-memory schema to disk
     async saveCurrent(): Promise<void> {
-        const schemaJson = JSON.stringify((settingsSchema as any).settings, null, 2);
-        await fs.promises.mkdir(path.dirname(this.settingsPath), { recursive: true });
+        const schemaJson = JSON.stringify(
+            (settingsSchema as any).settings,
+            null,
+            2
+        );
+        await fs.promises.mkdir(path.dirname(this.settingsPath), {
+            recursive: true,
+        });
         await fs.promises.writeFile(this.settingsPath, schemaJson, 'utf-8');
     }
 
     // Save from a full schema JSON string (compat path)
     async saveFromSchemaJSON(schemaJSONString: string): Promise<void> {
         settingsSchema.loadFromJSON(schemaJSONString);
-        await fs.promises.mkdir(path.dirname(this.settingsPath), { recursive: true });
-        await fs.promises.writeFile(this.settingsPath, schemaJSONString, 'utf-8');
+        await fs.promises.mkdir(path.dirname(this.settingsPath), {
+            recursive: true,
+        });
+        await fs.promises.writeFile(
+            this.settingsPath,
+            schemaJSONString,
+            'utf-8'
+        );
     }
 
     getAll(): any {
         // Return current settings as plain object
-    this.ensureDynamicDefaults();
+        this.ensureDynamicDefaults();
         const out: Record<string, any> = {};
-        Object.entries(settingsSchema.settings).forEach(([sectionKey, section]: any) => {
-            out[sectionKey] = {};
-            (section.fields || []).forEach((field: any) => {
-                out[sectionKey][field.label] = field.value ?? field.default;
-            });
-        });
+        Object.entries(settingsSchema.settings).forEach(
+            ([sectionKey, section]: any) => {
+                out[sectionKey] = {};
+                (section.fields || []).forEach((field: any) => {
+                    out[sectionKey][field.label] = field.value ?? field.default;
+                });
+            }
+        );
         return out;
     }
 
@@ -119,24 +139,25 @@ class SettingsService {
         const entries = Object.entries(settingsSchema.settings || {});
         for (const [, section] of entries) {
             if (!section || !Array.isArray((section as any).fields)) continue;
-            const field = (section as any).fields.find((f: any) => f && f.label === label);
+            const field = (section as any).fields.find(
+                (f: any) => f && f.label === label
+            );
             if (field) return field.value ?? field.default;
         }
         return undefined;
     }
 }
 
-
 // Export for main process use
 export const settingsService = SettingsService.getInstance();
 
-
-
 // IPC Handlers for settings API
-let settingsWindowRef : BrowserWindow | null = null;
-ipcMain.on('settings:open', async (event) => {
-    console.warn("Here");
-    const parent = BrowserWindow.fromWebContents(event.sender) || BrowserWindow.getFocusedWindow();
+let settingsWindowRef: BrowserWindow | null = null;
+ipcMain.on('settings:open', async event => {
+    console.warn('Here');
+    const parent =
+        BrowserWindow.fromWebContents(event.sender) ||
+        BrowserWindow.getFocusedWindow();
     if (!parent) return;
     if (settingsWindowRef?.isDestroyed() || !settingsWindowRef) {
         settingsWindowRef = await createSettingsModal(parent);
@@ -154,10 +175,13 @@ ipcMain.handle('settings:get', async (_event, section: string, key: string) => {
     return settingsService.get(section, key);
 });
 
-ipcMain.handle('settings:set', async (_event, section: string, key: string, value: any) => {
-    await settingsService.set(section, key, value);
-    return true;
-});
+ipcMain.handle(
+    'settings:set',
+    async (_event, section: string, key: string, value: any) => {
+        await settingsService.set(section, key, value);
+        return true;
+    }
+);
 
 ipcMain.handle('settings:getAll', async () => {
     return settingsService.getAll();
@@ -173,8 +197,8 @@ ipcMain.handle('settings:load', async () => {
 
 ipcMain.handle('settings:apply', async (_event, newSettings) => {
     try {
-    // Expect newSettings as a full schema JSON string
-    await settingsService.saveFromSchemaJSON(String(newSettings));
+        // Expect newSettings as a full schema JSON string
+        await settingsService.saveFromSchemaJSON(String(newSettings));
         return true;
     } catch (e) {
         console.error('Failed to save settings:', e);
@@ -182,28 +206,35 @@ ipcMain.handle('settings:apply', async (_event, newSettings) => {
     }
 });
 
-ipcMain.handle('settings:select-directory', async (event, options?: { title?: string; defaultPath?: string }) => {
-    const parent = BrowserWindow.fromWebContents(event.sender);
-    const result = parent ? await dialog.showOpenDialog(parent, {
-        properties: ['openDirectory', 'createDirectory'],
-        title: options?.title ?? 'Select Directory',
-        defaultPath: options?.defaultPath ?? undefined,
-    }) : await dialog.showOpenDialog({
-        properties: ['openDirectory', 'createDirectory'],
-        title: options?.title ?? 'Select Directory',
-        defaultPath: options?.defaultPath ?? undefined,
-    });
-    if (result.canceled || result.filePaths.length === 0) return null;
-    return result.filePaths[0];
-});
-
-ipcMain.handle('settings:validate-directory', async (_event, dirPath: string) => {
-    try {
-        await fs.promises.access(dirPath, fs.constants.F_OK);
-        await fs.promises.access(dirPath, fs.constants.W_OK);
-        return true;
-    } catch {
-        return false;
+ipcMain.handle(
+    'settings:select-directory',
+    async (event, options?: { title?: string; defaultPath?: string }) => {
+        const parent = BrowserWindow.fromWebContents(event.sender);
+        const result = parent
+            ? await dialog.showOpenDialog(parent, {
+                  properties: ['openDirectory', 'createDirectory'],
+                  title: options?.title ?? 'Select Directory',
+                  defaultPath: options?.defaultPath ?? undefined,
+              })
+            : await dialog.showOpenDialog({
+                  properties: ['openDirectory', 'createDirectory'],
+                  title: options?.title ?? 'Select Directory',
+                  defaultPath: options?.defaultPath ?? undefined,
+              });
+        if (result.canceled || result.filePaths.length === 0) return null;
+        return result.filePaths[0];
     }
-});
+);
 
+ipcMain.handle(
+    'settings:validate-directory',
+    async (_event, dirPath: string) => {
+        try {
+            await fs.promises.access(dirPath, fs.constants.F_OK);
+            await fs.promises.access(dirPath, fs.constants.W_OK);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+);

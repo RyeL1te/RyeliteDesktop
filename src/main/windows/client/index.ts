@@ -26,14 +26,17 @@ app.commandLine.appendSwitch('disable-backgrounding-occluded-windows');
 
 // Reroute any calls to the old website (highlite.dev) to the new one (ryelite.org).
 //  For use with legacy plugins.
-app.on("ready", () => {
-    const filter = { urls: ["*://highlite.dev/*"] };
-  
-    session.defaultSession.webRequest.onBeforeRequest(filter, (details, callback) => {
-      const newUrl = details.url.replace("highlite.dev", "ryelite.org");
-      callback({ redirectURL: newUrl });
-    });
-  });
+app.on('ready', () => {
+    const filter = { urls: ['*://highlite.dev/*'] };
+
+    session.defaultSession.webRequest.onBeforeRequest(
+        filter,
+        (details, callback) => {
+            const newUrl = details.url.replace('highlite.dev', 'ryelite.org');
+            callback({ redirectURL: newUrl });
+        }
+    );
+});
 
 export async function createClientWindow() {
     const mainWindow = new BrowserWindow({
@@ -99,12 +102,12 @@ export async function createClientWindow() {
         }
     });
 
-    mainWindow.webContents.on('console-message', (event) => {
+    mainWindow.webContents.on('console-message', event => {
         ipcMain.emit('add-console-message', {
             level: event.level,
             text: event.message,
             lineNumber: event.lineNumber,
-            source: event.sourceId
+            source: event.sourceId,
         });
     });
 
@@ -131,8 +134,6 @@ export async function createClientWindow() {
         // Always start with zoom reset to 0.0
         mainWindow.webContents.setZoomLevel(0);
     });
-
-    
 
     return mainWindow;
 }

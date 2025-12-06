@@ -22,11 +22,18 @@ declare global {
             set: (section: string, key: string, value: any) => Promise<void>;
             getAll: () => Promise<Record<string, any>>;
             getByName: (label: string) => Promise<any>;
-            selectDirectory: (options?: { title?: string; defaultPath?: string }) => Promise<string | null>;
+            selectDirectory: (options?: {
+                title?: string;
+                defaultPath?: string;
+            }) => Promise<string | null>;
             validateDirectory: (dirPath: string) => Promise<boolean>;
         };
         screenshot: {
-            capture: () => Promise<{ ok: boolean; path?: string; error?: string }>;
-        }
+            capture: () => Promise<{
+                ok: boolean;
+                path?: string;
+                error?: string;
+            }>;
+        };
     }
 }

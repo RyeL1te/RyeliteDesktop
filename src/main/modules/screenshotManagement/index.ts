@@ -17,8 +17,12 @@ async function ensureDir(dir: string): Promise<string> {
     return target;
 }
 
-async function captureFocusedWindow(): Promise<{ buffer: Buffer; format: 'png' } | null> {
-    const win = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0];
+async function captureFocusedWindow(): Promise<{
+    buffer: Buffer;
+    format: 'png';
+} | null> {
+    const win =
+        BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0];
     if (!win) return null;
 
     const img = await win.webContents.capturePage();
@@ -29,7 +33,10 @@ async function captureFocusedWindow(): Promise<{ buffer: Buffer; format: 'png' }
 export default function registerScreenshotIPC() {
     ipcMain.handle('screenshot:capture', async () => {
         try {
-            const dirSetting = settingsService.get('Screenshots', 'Screenshot Directory') as string | undefined;
+            const dirSetting = settingsService.get(
+                'Screenshots',
+                'Screenshot Directory'
+            ) as string | undefined;
             const dir = await ensureDir(dirSetting || app.getPath('pictures'));
             const result = await captureFocusedWindow();
             if (!result) return { ok: false, error: 'No window' };

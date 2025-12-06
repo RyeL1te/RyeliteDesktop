@@ -12,22 +12,30 @@ abstract class SettingsSchema {
         for (const sectionKey of Object.keys(data)) {
             const incomingSection = data[sectionKey];
             const existingSection = this.settings?.[sectionKey];
-            if (!existingSection || !Array.isArray(existingSection.fields)) continue;
+            if (!existingSection || !Array.isArray(existingSection.fields))
+                continue;
 
             // Case 1: full schema-like shape with fields array
             if (incomingSection && Array.isArray(incomingSection.fields)) {
-                incomingSection.fields.forEach((incomingField: any, index: number) => {
-                    const existingField = existingSection.fields[index];
-                    if (!existingField) return;
-                    // Preserve existing validation if present
-                    if (existingField.validation) {
-                        incomingField.validation = existingField.validation;
+                incomingSection.fields.forEach(
+                    (incomingField: any, index: number) => {
+                        const existingField = existingSection.fields[index];
+                        if (!existingField) return;
+                        // Preserve existing validation if present
+                        if (existingField.validation) {
+                            incomingField.validation = existingField.validation;
+                        }
+                        // Apply value if provided
+                        if (
+                            Object.prototype.hasOwnProperty.call(
+                                incomingField,
+                                'value'
+                            )
+                        ) {
+                            existingField.value = incomingField.value;
+                        }
                     }
-                    // Apply value if provided
-                    if (Object.prototype.hasOwnProperty.call(incomingField, 'value')) {
-                        existingField.value = incomingField.value;
-                    }
-                });
+                );
                 continue;
             }
 
@@ -36,7 +44,12 @@ abstract class SettingsSchema {
                 existingSection.fields.forEach((existingField: any) => {
                     if (!existingField) return;
                     const label = existingField.label;
-                    if (Object.prototype.hasOwnProperty.call(incomingSection, label)) {
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            incomingSection,
+                            label
+                        )
+                    ) {
                         existingField.value = incomingSection[label];
                     }
                 });
@@ -44,7 +57,9 @@ abstract class SettingsSchema {
         }
     }
 
-    static getSettingValueByName(name: string): string | number | boolean | undefined {
+    static getSettingValueByName(
+        name: string
+    ): string | number | boolean | undefined {
         for (const sectionKey in this.settings) {
             const section = this.settings[sectionKey];
             const field = section.fields.find(f => f.label === name);
@@ -65,7 +80,9 @@ interface Field {
     description?: string;
     default?: string | number | boolean;
     value?: string | number | boolean;
-    validation: (value: string | number | boolean) => boolean | Promise<boolean>;
+    validation: (
+        value: string | number | boolean
+    ) => boolean | Promise<boolean>;
 }
 interface DropdownField extends Field {
     type: SettingTypes.DROPDOWN;
@@ -81,65 +98,69 @@ enum SettingTypes {
     NUMBER = 'number',
     BOOLEAN = 'boolean',
     DROPDOWN = 'dropdown',
-    DIRECTORY = 'directory'
+    DIRECTORY = 'directory',
 }
-
-
 
 export class settingsSchema extends SettingsSchema {
     static settings = {
         Application: {
-            heading: "Application Settings",
+            heading: 'Application Settings',
             fields: [
                 {
-                    label: "Release Channel",
+                    label: 'Release Channel',
                     type: SettingTypes.DROPDOWN,
-                    description: "Select the release channel for updates.",
-                    default: "Stable",
+                    description: 'Select the release channel for updates.',
+                    default: 'Stable',
                     options: {
-                        "Stable": "Stable",
-                        "Beta": "Beta"
+                        Stable: 'Stable',
+                        Beta: 'Beta',
                     },
-                    validation: (value) => ["Stable", "Beta"].includes(value as string),
-                } as DropdownField
-            ]
+                    validation: value =>
+                        ['Stable', 'Beta'].includes(value as string),
+                } as DropdownField,
+            ],
         },
         Plugins: {
-            heading: "Plugin Settings",
+            heading: 'Plugin Settings',
             fields: [
                 {
-                    label: "Enable Plugins",
+                    label: 'Enable Plugins',
                     type: SettingTypes.BOOLEAN,
-                    description: "Allow the use of plugins in Ryelite.",
-                    default: true
+                    description: 'Allow the use of plugins in Ryelite.',
+                    default: true,
                 } as Field,
                 {
-                    label: "Allow Beta Plugins",
+                    label: 'Allow Beta Plugins',
                     type: SettingTypes.BOOLEAN,
-                    description: "Allow the use of beta plugins in Ryelite.",
-                    default: false
-                } as Field
-            ]
+                    description: 'Allow the use of beta plugins in Ryelite.',
+                    default: false,
+                } as Field,
+            ],
         },
         Screenshots: {
-            heading: "Screenshots",
+            heading: 'Screenshots',
             fields: [
                 {
-                    label: "Screenshot Directory",
+                    label: 'Screenshot Directory',
                     type: SettingTypes.DIRECTORY,
-                    description: "The directory where screenshots are saved.",
-                    default: "/path/to/screenshots",
-                    validation: async (value) => {
-                        if (typeof value !== 'string' || !value.trim()) return false;
+                    description: 'The directory where screenshots are saved.',
+                    default: '/path/to/screenshots',
+                    validation: async value => {
+                        if (typeof value !== 'string' || !value.trim())
+                            return false;
                         try {
-                            const ok = await globalThis.electron.ipcRenderer.invoke('settings:validate-directory', value);
+                            const ok =
+                                await globalThis.electron.ipcRenderer.invoke(
+                                    'settings:validate-directory',
+                                    value
+                                );
                             return Boolean(ok);
                         } catch {
                             return false;
                         }
-                    }
-                } as DirectoryField
-            ]
-        }
+                    },
+                } as DirectoryField,
+            ],
+        },
     };
 }

@@ -40,7 +40,7 @@ ipcMain.on('close-window', event => {
     // Get the BrowserWindow instance from the event
     const window = BrowserWindow.fromWebContents(event.sender);
     if (window && !window.isDestroyed()) {
-        if (window.getTitle() === "Console") {
+        if (window.getTitle() === 'Console') {
             window.hide();
             return;
         }

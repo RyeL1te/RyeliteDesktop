@@ -27,10 +27,7 @@
  * > Channel' represents is the channel to send to the main process
  *
  **/
-export type selector = 
-    | '#minimizeBtn' 
-    | '#maximizeBtn' 
-    | '#closeBtn';
+export type selector = '#minimizeBtn' | '#maximizeBtn' | '#closeBtn';
 
 export type channel =
     | 'minimize-window'
