@@ -13,11 +13,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
 import '@iconify/iconify';
 
+import { setupWindowControls } from '../helper/';
+
 // Update Progress UI elements
-const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+const $ = <T extends HTMLElement = HTMLElement>(id: string) =>
+    document.getElementById(id) as T;
 const updateStatus = $('update-status');
 const progressLoader = $('progressLoader');
 const progressBar = $('progressBar') as HTMLDivElement;
@@ -51,7 +53,8 @@ window.electron.ipcRenderer.on('update-downloaded', _ => {
 });
 
 window.electron.ipcRenderer.on('update-available', (_, releaseInfo) => {
-    updateStatus.textContent = 'Update to ' + releaseInfo.releaseName + ' Available!';
+    updateStatus.textContent =
+        'Update to ' + releaseInfo.releaseName + ' Available!';
     progressLoader.style.visibility = 'hidden';
     btnUpdateNow.style.display = 'block';
     btnUpdateLater.style.display = 'block';
@@ -100,11 +103,4 @@ closeBtn.addEventListener('click', () => {
     window.electron.ipcRenderer.send('delay-update');
 });
 
-const isDarwin = window.electron.process.platform === 'darwin';
-
-// Hide the window controls if the OS is Darwin (macOS)
-if(isDarwin) {
-    document.getElementById('window-controls')?.remove();
-} else {
-    document.getElementById('darwin-spacer')?.remove();
-}
+setupWindowControls();

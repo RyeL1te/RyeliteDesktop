@@ -12,6 +12,8 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+import { setupWindowControls } from '../../helper';
 
 let ogError = console.error;
 console.error = function (...args) {
@@ -34,9 +36,8 @@ console.error = function (...args) {
             const warningIcon = document.querySelector(
                 '#warningIndicator .warning-icon'
             );
-            if (warningIcon) {
-                warningIcon.classList.remove('warning', 'error');
-            }
+            if (warningIcon) warningIcon.classList.remove('warning', 'error');
+
             warningIndicator.style.display = 'none';
         };
     }
@@ -51,9 +52,8 @@ console.warn = function (...args) {
     );
     if (warningIndicator && warningIcon) {
         // Only set warning class if there's no error class (errors take precedence)
-        if (!warningIcon.classList.contains('error')) {
-            warningIcon.classList.add('warning');
-        }
+        if (!warningIcon.classList.contains('error')) warningIcon.classList.add('warning');
+
         warningIndicator.style.display = 'flex';
     }
     // On click open dev tools
@@ -64,31 +64,19 @@ console.warn = function (...args) {
             const warningIcon = document.querySelector(
                 '#warningIndicator .warning-icon'
             );
-            if (warningIcon) {
-                warningIcon.classList.remove('warning', 'error');
-            }
+
+            if (warningIcon) warningIcon.classList.remove('warning', 'error');
+
             warningIndicator.style.display = 'none';
         };
     }
 };
 
-// Obtain references to the minimize, maximize, and close buttons
-const minimizeButton = document.querySelector('#minimizeBtn');
-const maximizeButton = document.querySelector('#maximizeBtn');
-const closeButton = document.querySelector('#closeBtn');
 const settingsButton = document.querySelector('#settingsBtn');
 const screenshotButton = document.querySelector('#screenshotBtn');
 
-// Add click event listeners to the buttons
-minimizeButton.addEventListener('click', () => {
-    window.electron.ipcRenderer.send('minimize-window');
-});
-maximizeButton.addEventListener('click', () => {
-    window.electron.ipcRenderer.send('toggle-maximize-window');
-});
-closeButton.addEventListener('click', () => {
-    window.electron.ipcRenderer.send('close-window');
-});
+setupWindowControls();
+
 settingsButton.addEventListener('click', () => {
     window.electron.ipcRenderer.send('settings:open');
 });
@@ -97,25 +85,15 @@ settingsButton.addEventListener('click', () => {
 if (screenshotButton) {
     screenshotButton.addEventListener('click', async () => {
         const res = await window.screenshot.capture();
-        if (!res.ok) {
-            console.error('Screenshot failed:', res.error);
-        }
+
+        if (!res.ok) console.error('Screenshot failed:', res.error);
     });
 }
 
-const isDarwin = window.electron.process.platform === 'darwin';
-
-// Hide the window controls if the OS is Darwin (macOS)
-if(isDarwin) {
-    document.getElementById('window-controls').remove();
-} else {
-    document.getElementById('darwin-spacer').remove();
-}
 
 export function setTitle(title) {
     document.title = title;
     const logoText = document.getElementById('logoText');
-    if (logoText) {
-        logoText.textContent = title;
-    }
+
+    if (logoText) logoText.textContent = title;
 }

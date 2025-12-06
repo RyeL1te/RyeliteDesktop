@@ -12,6 +12,7 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+import { setupWindowControls } from '../helper';
 
 class ConsoleManager {
     messages: any[];
@@ -23,13 +24,13 @@ class ConsoleManager {
         this.init();
     }
 
-    init() {
+    init(): void {
         this.bindEvents();
         this.setupIPCListeners();
     }
 
-    setupIPCListeners() {
-        window.electron.ipcRenderer.on('add-console-message', (event, data) => {
+    setupIPCListeners(): void {
+        window.electron.ipcRenderer.on('add-console-message', (_, data) => {
             if (data.level === 'debug') {
                 return; // Skip debug messages
             }
@@ -37,115 +38,110 @@ class ConsoleManager {
         });
     }
 
-    bindEvents() {
+    bindEvents(): void {
         // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                this.setFilter(e.target.dataset.type);
+            btn.addEventListener('click', e => {
+                const type = (e.target as HTMLElement).dataset.type;
+
+                return type ? this.setFilter(type) : undefined;
             });
         });
 
         // Clear button
-        document.getElementById('clearConsole').addEventListener('click', () => {
-            this.clearMessages();
-        });
+        document.getElementById('clearConsole')?.addEventListener('click', () => { this.clearMessages(); });
     }
 
-    formatMessage(args) {
+    formatMessage(args: any[]): string {
         return args.map(arg => {
-            if (typeof arg === 'object') {
-                try {
-                    return JSON.stringify(arg, null, 2);
-                } catch (e) {
-                    return arg.toString();
+
+                if (typeof arg === 'object') {
+                    try {
+                        return JSON.stringify(arg, null, 2);
+                    } catch (e) {
+                        return arg.toString();
+                    }
                 }
-            }
-            return String(arg);
-        }).join(' ');
+
+                return String(arg);
+            })
+            .join(' ');
     }
-    
-    addMessage(type, message, source, timestamp = new Date()) {
+
+    addMessage(type: string, message: string, source: string, timestamp: Date = new Date()): void {
         const messageObj = {
             id: Date.now() + Math.random(),
             type,
             message,
             source,
-            timestamp: timestamp
+            timestamp: timestamp,
         };
 
         this.messages.unshift(messageObj); // Add to beginning for newest first
-        
+
         // Keep only last 1000 messages
-        if (this.messages.length > 1000) {
-            this.messages = this.messages.slice(0, 1000);
-        }
+        if (this.messages.length > 1000) this.messages = this.messages.slice(0, 1000);
 
         this.storeMessages();
         this.renderMessages();
     }
 
-    setFilter(type) {
+    setFilter(type: string): void {
         this.currentFilter = type;
-        
+
         // Update active filter button
         document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.type === type);
+            btn.classList.toggle('active', (btn as HTMLElement).dataset.type === type);
         });
 
         this.renderMessages();
     }
 
-    clearMessages() {
+    clearMessages(): void {
         this.messages = [];
         this.storeMessages();
         this.renderMessages();
     }
 
-    renderMessages() {
-        const content = document.getElementById('console-content');
+    renderMessages(): void {
+        const content = document.getElementById('console-content') as HTMLElement;
         const emptyState = document.getElementById('emptyState');
-        
+
         let filteredMessages = this.messages;
-        if (this.currentFilter !== 'all') {
-            filteredMessages = this.messages.filter(msg => msg.type === this.currentFilter);
-        }
+        if (this.currentFilter !== 'all') filteredMessages = this.messages.filter(msg => msg.type === this.currentFilter);
 
         if (filteredMessages.length === 0) {
-            emptyState.style.display = 'block';
-            // Clear existing messages
-            const existingRows = content.querySelectorAll('.console-row');
-            existingRows.forEach(row => row.remove());
+            (emptyState?.style as any).display = 'block';
+            const existingRows = content?.querySelectorAll('.console-row');
+            existingRows?.forEach(row => row.remove());
             return;
         }
 
-        emptyState.style.display = 'none';
-        
-        // Clear existing messages
-        const existingRows = content.querySelectorAll('.console-row');
-        existingRows.forEach(row => row.remove());
+        (emptyState?.style as any).display = 'none';
 
-        // Render filtered messages
+        const existingRows = content?.querySelectorAll('.console-row');
+        existingRows?.forEach(row => row.remove());
+
         filteredMessages.forEach(msg => {
             const row = this.createMessageRow(msg);
-            content.appendChild(row);
+            content?.appendChild(row);
         });
     }
 
-    truncateText(text, maxLength) {
-        if (text.length <= maxLength) {
-            return text;
-        }
+    truncateText(text: string, maxLength: number): string {
+        if (text.length <= maxLength) return text;
+
         return text.substring(0, maxLength - 3) + '...';
     }
 
-    createMessageRow(message) {
+    createMessageRow(message: any): HTMLElement {
         const row = document.createElement('div');
         row.className = `console-row ${message.type}`;
-        
+
         const timestamp = message.timestamp.toLocaleTimeString();
         const truncatedMessage = this.truncateText(message.message, 100);
         const truncatedSource = this.truncateText(message.source, 30);
-        
+
         row.innerHTML = `
             <div class="timestamp">${timestamp}</div>
             <div class="message" title="${this.escapeHtml(message.message)}">${this.escapeHtml(truncatedMessage)}</div>
@@ -161,13 +157,14 @@ class ConsoleManager {
         return row;
     }
 
-    escapeHtml(text) {
+    escapeHtml(text: string): string {
         const div = document.createElement('div');
         div.textContent = text;
+
         return div.innerHTML;
     }
 
-    showToast(message) {
+    showToast(message: string): void {
         // Simple toast notification
         const toast = document.createElement('div');
         toast.textContent = message;
@@ -185,14 +182,14 @@ class ConsoleManager {
             opacity: 0;
             transition: opacity 0.3s ease;
         `;
-        
+
         document.body.appendChild(toast);
-        
+
         // Fade in
         setTimeout(() => {
             toast.style.opacity = '1';
         }, 10);
-        
+
         // Remove after 3 seconds
         setTimeout(() => {
             toast.style.opacity = '0';
@@ -204,7 +201,7 @@ class ConsoleManager {
 
     storeMessages() {
         try {
-            localStorage.setItem('highlite-console-messages', JSON.stringify(this.messages.slice(0, 100)));
+            localStorage.setItem('highlite-console-messages',JSON.stringify(this.messages.slice(0, 100)));
         } catch (e) {
             console.warn('Failed to store console messages:', e);
         }
@@ -214,47 +211,9 @@ class ConsoleManager {
 const consoleManager = new ConsoleManager();
 consoleManager.init();
 import '@iconify/iconify';
-// Window control handlers
-function setupWindowControls() {
-    // Obtain references to the minimize, maximize, and close buttons
-    const minimizeButton = document.querySelector('#minimizeBtn');
-    const maximizeButton = document.querySelector('#maximizeBtn');
-    const closeButton = document.querySelector('#closeBtn');
 
-    // Add click event listeners to the buttons
-    if (minimizeButton) {
-        minimizeButton.addEventListener('click', () => {
-            window.electron.ipcRenderer.send('minimize-window');
-        });
-    }
-    
-    if (maximizeButton) {
-        maximizeButton.addEventListener('click', () => {
-            window.electron.ipcRenderer.send('toggle-maximize-window');
-        });
-    }
-    
-    if (closeButton) {
-        closeButton.addEventListener('click', () => {
-            window.electron.ipcRenderer.send('close-window');
-        });
-    }
-
-    const isDarwin = window.electron.process.platform === 'darwin';
-
-    // Hide the window controls if the OS is Darwin (macOS)
-    if(isDarwin) {
-        const windowControls = document.getElementById('window-controls');
-        if (windowControls) {
-            windowControls.remove();
-        }
-    } else {
-        const darwinSpacer = document.getElementById('darwin-spacer');
-        if (darwinSpacer) {
-            darwinSpacer.remove();
-        }
-    }
-}
+// Window control handlers @see {helper.ts} -> new function for handling window controls
+setupWindowControls();
 
 // Initialize window controls when DOM is ready
 document.addEventListener('DOMContentLoaded', setupWindowControls);
