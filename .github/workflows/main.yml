@@ -100,6 +100,8 @@ jobs:
         run: yarn install --frozen-lockfile
       
       - name: Build
+        env:
+          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
         run: yarn run build
       
       - name: Package Application

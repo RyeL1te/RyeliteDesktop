@@ -30,11 +30,16 @@ const screenshotAPI = {
     capture: async () => ipcRenderer.invoke('screenshot:capture') as Promise<{ ok: boolean; path?: string; error?: string }>,
 };
 
+const discordAPI = {
+    updateState: (isLoggedIn: boolean) => ipcRenderer.send('discord:update-state', isLoggedIn),
+};
+
 if (process.contextIsolated) {
     try {
         contextBridge.exposeInMainWorld('electron', electronAPI);
         contextBridge.exposeInMainWorld('settings', settingsAPI);
         contextBridge.exposeInMainWorld('screenshot', screenshotAPI);
+        contextBridge.exposeInMainWorld('discord', discordAPI);
     } catch (error) {
         console.error(error);
     }
@@ -45,4 +50,6 @@ if (process.contextIsolated) {
     window.settings = settingsAPI;
     // @ts-ignore
     window.screenshot = screenshotAPI;
+    // @ts-ignore
+    window.discord = discordAPI;
 }
