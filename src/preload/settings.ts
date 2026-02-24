@@ -140,6 +140,17 @@ export class settingsSchema extends SettingsSchema {
                     }
                 } as DirectoryField
             ]
+        },
+        Integrations: {
+            heading: "Integrations",
+            fields: [
+                {
+                    label: "Enable Discord Rich Presence",
+                    type: SettingTypes.BOOLEAN,
+                    description: "Show your game status on Discord.",
+                    default: false
+                } as Field
+            ]
         }
     };
 }

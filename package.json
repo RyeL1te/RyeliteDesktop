@@ -98,6 +98,7 @@
     "@electron-toolkit/utils": "^4.0.0",
     "@iconify/iconify": "^3.1.1",
     "@ryelite/core": "0.1.1",
+    "discord-rpc": "^4.0.1",
     "electron-log": "^5.4.2",
     "electron-updater": "^6.6.7",
     "idb": "^8.0.3",
@@ -105,6 +106,7 @@
   },
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^1.0.1",
+    "@types/discord-rpc": "^4.0.10",
     "@types/node": "^22.17.1",
     "electron": "^37.2.6",
     "electron-builder": "^26.1.0",

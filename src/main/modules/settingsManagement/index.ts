@@ -24,13 +24,15 @@ import { createSettingsModal } from "../../windows/settings/index";
 import { BrowserWindow, ipcMain, dialog, app } from "electron";
 import fs from 'fs';
 import path from 'path';
+import { EventEmitter } from 'events';
 
 // Centralized Settings Service
-class SettingsService {
+class SettingsService extends EventEmitter {
     private static instance: SettingsService;
     private settingsPath: string;
 
     private constructor() {
+        super();
         this.settingsPath = path.join(app.getPath('userData'), 'settings.json');
     }
 
@@ -83,11 +85,12 @@ class SettingsService {
         settingsSchema.loadFromJSON(schemaJSONString);
         await fs.promises.mkdir(path.dirname(this.settingsPath), { recursive: true });
         await fs.promises.writeFile(this.settingsPath, schemaJSONString, 'utf-8');
+        this.emit('settings-applied');
     }
 
     getAll(): any {
         // Return current settings as plain object
-    this.ensureDynamicDefaults();
+        this.ensureDynamicDefaults();
         const out: Record<string, any> = {};
         Object.entries(settingsSchema.settings).forEach(([sectionKey, section]: any) => {
             out[sectionKey] = {};
@@ -112,6 +115,7 @@ class SettingsService {
         if (field) {
             field.value = value;
             await this.saveCurrent();
+            this.emit('setting-changed', section, key, value);
         }
     }
 
@@ -133,7 +137,7 @@ export const settingsService = SettingsService.getInstance();
 
 
 // IPC Handlers for settings API
-let settingsWindowRef : BrowserWindow | null = null;
+let settingsWindowRef: BrowserWindow | null = null;
 ipcMain.on('settings:open', async (event) => {
     console.warn("Here");
     const parent = BrowserWindow.fromWebContents(event.sender) || BrowserWindow.getFocusedWindow();
@@ -173,8 +177,8 @@ ipcMain.handle('settings:load', async () => {
 
 ipcMain.handle('settings:apply', async (_event, newSettings) => {
     try {
-    // Expect newSettings as a full schema JSON string
-    await settingsService.saveFromSchemaJSON(String(newSettings));
+        // Expect newSettings as a full schema JSON string
+        await settingsService.saveFromSchemaJSON(String(newSettings));
         return true;
     } catch (e) {
         console.error('Failed to save settings:', e);
