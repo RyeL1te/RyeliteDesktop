@@ -3,7 +3,7 @@ import { settingsService } from '../settingsManagement/index';
 import log from 'electron-log';
 import { ipcMain } from 'electron';
 
-const clientId = process.env.DISCORD_CLIENT_ID || '';
+const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID || '';
 const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 
 class DiscordModule {

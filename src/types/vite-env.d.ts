@@ -14,3 +14,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 /// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+    readonly VITE_DISCORD_CLIENT_ID: string;
+}
+
+interface ImportMeta {
+    readonly env: ImportMetaEnv;
+}
